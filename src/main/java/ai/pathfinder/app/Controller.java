@@ -1,7 +1,7 @@
 package ai.pathfinder.app;
 
-import ai.pathfinder.core.IController;
-import ai.pathfinder.core.IView;
+import ai.pathfinder.framework.IController;
+import ai.pathfinder.framework.IView;
 
 public class Controller implements IController {
 

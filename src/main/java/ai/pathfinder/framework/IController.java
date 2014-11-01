@@ -1,4 +1,4 @@
-package ai.pathfinder.core;
+package ai.pathfinder.framework;
 
 public interface IController {
 

@@ -1,15 +1,19 @@
 package ai.pathfinder.app;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import ai.pathfinder.core.IController;
-import ai.pathfinder.core.IView;
+import ai.pathfinder.framework.IController;
+import ai.pathfinder.framework.IView;
 
 public class View extends JFrame implements IView {
 
@@ -17,6 +21,7 @@ public class View extends JFrame implements IView {
     private IController controller;
 
     private TopPanel topPanel;
+    private Maze maze;
 
     public View() {
         setTitle("Path Finder");
@@ -26,6 +31,9 @@ public class View extends JFrame implements IView {
 
         topPanel = new TopPanel();
         getContentPane().add(topPanel, BorderLayout.NORTH);
+        
+        maze = new Maze();
+        getContentPane().add(maze, BorderLayout.CENTER);
     }
 
     @Override
@@ -53,6 +61,30 @@ public class View extends JFrame implements IView {
                controller.printHello();
            }
            repaint();
+        }
+    }
+    
+    /** Maze */
+    private class Maze extends JComponent {
+
+        private static final long serialVersionUID = 1L;
+        
+        @Override
+        public void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            int width = getWidth();
+            int height = getHeight();
+
+            g2.setBackground(Color.white);
+            g2.clearRect(0, 0, width, height);
+
+            g2.setColor(Color.GRAY);
+            for (int i = 0; i < height; i += 25) {
+                g2.drawLine(0, i, width, i);
+            }
+            for (int j = 0; j < width; j += 25) {
+                g2.drawLine(j, 0, j, height);
+            }
         }
     }
 }
