@@ -27,13 +27,16 @@ public class View extends JFrame implements IView {
     public View() {
         setTitle("Path Finder");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setResizable(false);
+        setSize(800, 603);
+        setLocationRelativeTo(null);
+
         getContentPane().setLayout(new BorderLayout());
 
         toolbar = new ToolBar();
         getContentPane().add(toolbar, BorderLayout.NORTH);
         
-        maze = new Maze();
+        maze = new Maze(32, 22);
         getContentPane().add(maze, BorderLayout.CENTER);
     }
 
@@ -74,7 +77,6 @@ public class View extends JFrame implements IView {
            } else if (e.getSource() == resetButton) {
                controller.reset();
            }
-           repaint();
         }
     }
     
@@ -82,22 +84,33 @@ public class View extends JFrame implements IView {
     private class Maze extends JComponent {
 
         private static final long serialVersionUID = 1L;
-        
+
+        private static final int blockSize = 25;
+        private int width;
+        private int height;
+
+        Maze(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
         @Override
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
-            int width = getWidth();
-            int height = getHeight();
+            int containerWidth = getWidth();
+            int containerHeight = getHeight();
 
             g2.setBackground(Color.white);
-            g2.clearRect(0, 0, width, height);
+            g2.clearRect(0, 0, containerWidth, containerHeight);
 
             g2.setColor(Color.GRAY);
-            for (int i = 0; i < height; i += 25) {
-                g2.drawLine(0, i, width, i);
+            // horizontal lines
+            for (int i = 0; i <= height; i++) {
+                g2.drawLine(0, i*blockSize, width*blockSize, i*blockSize);
             }
-            for (int j = 0; j < width; j += 25) {
-                g2.drawLine(j, 0, j, height);
+            // vertical lines
+            for (int j = 0; j <= width; j++) {
+                g2.drawLine(j*blockSize, 0, j*blockSize, height*blockSize);
             }
 
             g2.setColor(Color.GREEN);
