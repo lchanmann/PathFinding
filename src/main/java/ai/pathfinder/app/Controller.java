@@ -17,7 +17,12 @@ public class Controller implements IController {
     }
 
     @Override
-    public void printHello() {
-        System.out.println("Hello world!");
+    public void run() {
+        System.out.println("Finding ...");
+    }
+
+    @Override
+    public void reset() {
+        System.out.println("Reset!");
     }
 }

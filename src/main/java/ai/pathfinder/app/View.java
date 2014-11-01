@@ -8,9 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 
 import ai.pathfinder.framework.IController;
 import ai.pathfinder.framework.IView;
@@ -20,7 +22,7 @@ public class View extends JFrame implements IView {
     private static final long serialVersionUID = 6872713207253485306L;
     private IController controller;
 
-    private TopPanel topPanel;
+    private ToolBar toolbar;
     private Maze maze;
 
     public View() {
@@ -29,8 +31,8 @@ public class View extends JFrame implements IView {
         setSize(800, 600);
         getContentPane().setLayout(new BorderLayout());
 
-        topPanel = new TopPanel();
-        getContentPane().add(topPanel, BorderLayout.NORTH);
+        toolbar = new ToolBar();
+        getContentPane().add(toolbar, BorderLayout.NORTH);
         
         maze = new Maze();
         getContentPane().add(maze, BorderLayout.CENTER);
@@ -43,22 +45,35 @@ public class View extends JFrame implements IView {
     }
 
     /** TopPanel  */
-    private class TopPanel extends JPanel implements ActionListener {
+    private class ToolBar extends JToolBar implements ActionListener {
 
         private static final long serialVersionUID = 1L;
 
-        private JButton helloButton;
+        private JComboBox<String> algorithmCombo;
+        private JButton runButton;
+        private JButton resetButton;
 
-        TopPanel() {
-            helloButton = new JButton("Hello");
-            helloButton.addActionListener(this);
-            add(helloButton);
+        ToolBar() {
+            algorithmCombo = new JComboBox<String>(new String[] { "A* - Manhattan", "Hill-Climbing", "Simulated Annealing" });
+            add(algorithmCombo);
+
+            runButton = new JButton("Run");
+            runButton.addActionListener(this);
+            add(runButton);
+
+            resetButton = new JButton("Reset");
+            resetButton.addActionListener(this);
+            add(resetButton);
+
+            setFloatable(false);
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-           if (e.getSource() == helloButton) {
-               controller.printHello();
+           if (e.getSource() == runButton) {
+               controller.run();
+           } else if (e.getSource() == resetButton) {
+               controller.reset();
            }
            repaint();
         }
