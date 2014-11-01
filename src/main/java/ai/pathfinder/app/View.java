@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import ai.pathfinder.framework.IController;
@@ -100,6 +99,12 @@ public class View extends JFrame implements IView {
             for (int j = 0; j < width; j += 25) {
                 g2.drawLine(j, 0, j, height);
             }
+
+            g2.setColor(Color.GREEN);
+            g2.fillRect(250, 250, 25, 25);
+
+            g2.setColor(Color.RED);
+            g2.fillRect(550, 250, 25, 25);
         }
     }
 }
