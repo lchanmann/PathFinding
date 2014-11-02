@@ -1,13 +1,13 @@
 package ai.pathfinder.app;
 
 import ai.pathfinder.framework.IController;
-import ai.pathfinder.framework.IView;
+import ai.pathfinder.framework.IMainView;
 
 public class Controller implements IController {
 
-    private IView view;
+    private IMainView view;
 
-    public Controller(IView view) {
+    public Controller(IMainView view) {
         this.view = view;
     }
 
@@ -17,7 +17,7 @@ public class Controller implements IController {
     }
 
     @Override
-    public void run() {
+    public void search() {
         System.out.println("Finding ...");
     }
 

@@ -1,11 +1,11 @@
 package ai.pathfinder.app;
 
 import ai.pathfinder.framework.IController;
-import ai.pathfinder.framework.IView;
+import ai.pathfinder.framework.IMainView;
 
 public class Application {
 
-    private IView view;
+    private IMainView view;
     private IController controller;
 
     public Application() {
@@ -20,5 +20,4 @@ public class Application {
     public static void main(String[] args) {
         new Application().run();
     }
-
 }

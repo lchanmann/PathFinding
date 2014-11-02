@@ -4,7 +4,7 @@ public interface IController {
 
     public void init();
 
-    public void run();
+    public void search();
 
     public void reset();
 
