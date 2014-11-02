@@ -4,8 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -81,17 +85,28 @@ public class View extends JFrame implements IView {
     }
     
     /** Maze */
-    private class Maze extends JComponent {
+    private class Maze extends JComponent implements
+        MouseMotionListener, MouseListener {
 
         private static final long serialVersionUID = 1L;
 
-        private static final int blockSize = 25;
+        private static final int BLOCK_SIZE = 25;
         private int width;
         private int height;
+
+        private Point startingPoint;
+        private Point goalPoint;
+        private Point selectedPoint;
 
         Maze(int width, int height) {
             this.width = width;
             this.height = height;
+
+            this.startingPoint = new Point(250, 250);
+            this.goalPoint = new Point(550, 250);
+
+            addMouseListener(this);
+            addMouseMotionListener(this);
         }
 
         @Override
@@ -103,21 +118,74 @@ public class View extends JFrame implements IView {
             g2.setBackground(Color.white);
             g2.clearRect(0, 0, containerWidth, containerHeight);
 
+            drawMaze(g2);
+
+            drawTarget(g2, startingPoint, Color.GREEN);
+            drawTarget(g2, goalPoint, Color.RED);
+        }
+
+        private void drawMaze(Graphics2D g2) {
             g2.setColor(Color.GRAY);
             // horizontal lines
             for (int i = 0; i <= height; i++) {
-                g2.drawLine(0, i*blockSize, width*blockSize, i*blockSize);
+                g2.drawLine(0, i * BLOCK_SIZE, width * BLOCK_SIZE, i * BLOCK_SIZE);
             }
             // vertical lines
             for (int j = 0; j <= width; j++) {
-                g2.drawLine(j*blockSize, 0, j*blockSize, height*blockSize);
+                g2.drawLine(j * BLOCK_SIZE, 0, j * BLOCK_SIZE, height * BLOCK_SIZE);
             }
-
-            g2.setColor(Color.GREEN);
-            g2.fillRect(250, 250, 25, 25);
-
-            g2.setColor(Color.RED);
-            g2.fillRect(550, 250, 25, 25);
         }
+
+        private void drawTarget(Graphics2D g2, Point position, Color color) {
+            g2.setColor(color);
+            g2.fillRect(position.x, position.y, BLOCK_SIZE, BLOCK_SIZE);
+
+            g2.setColor(Color.GRAY);
+            g2.drawRect(position.x, position.y, BLOCK_SIZE, BLOCK_SIZE);
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            int x = e.getX();
+            int y = e.getY();
+
+            if (selectedPoint != null) {
+                if (x > 0 && y > 0) {
+                    if (x < getWidth() && y < getHeight()) {
+                        selectedPoint.setLocation(snapToGrid(x, y));
+                    }
+                }
+            }
+            repaint();
+        }
+
+        private Point snapToGrid(int x, int y) {
+            return new Point(x - x % BLOCK_SIZE, y - y % BLOCK_SIZE);
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) { }
+
+        @Override
+        public void mouseClicked(MouseEvent e) { }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            int x = e.getX();
+            int y = e.getY();
+            Point pressed = snapToGrid(x, y);
+
+            if (pressed.distance(startingPoint) == 0) selectedPoint = startingPoint;
+            if (pressed.distance(goalPoint) == 0) selectedPoint = goalPoint;
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) { }
+
+        @Override
+        public void mouseEntered(MouseEvent e) { }
+
+        @Override
+        public void mouseExited(MouseEvent e) { }
     }
 }
