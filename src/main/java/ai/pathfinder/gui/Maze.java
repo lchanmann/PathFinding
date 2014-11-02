@@ -69,10 +69,9 @@ public class Maze extends JComponent implements MouseMotionListener,
         int y = e.getY();
 
         if (selectedPoint != null) {
-            if (x > 0 && y > 0) {
-                if (x < getWidth() && y < getHeight()) {
-                    selectedPoint.setLocation(snapToGrid(x, y));
-                }
+            if (x > 0 && y > 0 &&
+                    x < getWidth() && y < getHeight()) {
+                selectedPoint.setLocation(snapToGrid(x, y));
             }
         }
         repaint();
@@ -94,14 +93,14 @@ public class Maze extends JComponent implements MouseMotionListener,
         int y = e.getY();
         Point pressed = snapToGrid(x, y);
 
-        if (pressed.distance(startingPoint) == 0)
-            selectedPoint = startingPoint;
-        if (pressed.distance(goalPoint) == 0)
-            selectedPoint = goalPoint;
+        if (pressed.distance(startingPoint) == 0) selectedPoint = startingPoint;
+        else if (pressed.distance(goalPoint) == 0) selectedPoint = goalPoint;
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) { }
+    public void mouseReleased(MouseEvent e) {
+        selectedPoint = null;
+    }
 
     @Override
     public void mouseEntered(MouseEvent e) { }
