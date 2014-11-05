@@ -1,7 +1,7 @@
 package ai.pathfinder.framework;
 
 import java.awt.Point;
-import java.util.Set;
+import java.util.Iterator;
 
 public interface IViewModel {
 
@@ -32,7 +32,7 @@ public interface IViewModel {
      * Get wall
      * @return
      */
-    public Set<Point> getWall();
+    public Iterator<Point> getWall();
 
     /**
      * Get start node
@@ -53,5 +53,13 @@ public interface IViewModel {
      * @return
      */
     public boolean isMovableNode(int x, int y);
+
+    /**
+     * Check if the position is wall
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean isWall(int x, int y);
 
 }

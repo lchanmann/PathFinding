@@ -30,4 +30,14 @@ public class Controller implements IController {
     public void updateNode(int x, int y) {
         model.updateNode(x, y);
     }
+
+    @Override
+    public void addWall(int x, int y) {
+        model.addWall(x, y);
+    }
+
+    @Override
+    public void removeWall(int x, int y) {
+        model.removeWall(x, y);
+    }
 }

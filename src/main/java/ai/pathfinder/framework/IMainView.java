@@ -36,4 +36,18 @@ public interface IMainView {
      */
     public void moveNode(int x, int y);
 
+    /**
+     * Add wall to grid
+     * @param x
+     * @param y
+     */
+    public void addWall(int x, int y);
+
+    /**
+     * Remove wall from grid
+     * @param x
+     * @param y
+     */
+    public void removeWall(int x, int y);
+
 }

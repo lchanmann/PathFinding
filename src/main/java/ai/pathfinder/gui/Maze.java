@@ -7,7 +7,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Set;
+import java.util.Iterator;
 
 import javax.swing.JComponent;
 
@@ -60,8 +60,9 @@ public class Maze extends JComponent implements MouseMotionListener,
     }
 
     private void drawWall(Graphics2D g2) {
-        for (Point block : model.getWall()) {
-            drawTarget(g2, block, Color.GRAY);
+        Iterator<Point> wall = model.getWall();
+        while (wall.hasNext()) {
+            drawTarget(g2, wall.next(), Color.GRAY);
         }
     }
 
@@ -95,8 +96,6 @@ public class Maze extends JComponent implements MouseMotionListener,
     public void mouseDragged(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        Point dragged = snapToGrid(x, y);
-        Set<Point> wall = model.getWall();
 
         if (isMovingNode) {
             if (x > 0 && y > 0 &&
@@ -104,17 +103,11 @@ public class Maze extends JComponent implements MouseMotionListener,
                 mainView.moveNode(x, y);
             }
         } else if (isDrawingWall) {
-            wall.add(dragged);
+            mainView.addWall(x, y);
         } else if (isErasingWall) {
-            wall.remove(dragged);
+            mainView.removeWall(x, y);
         }
         repaint();
-    }
-
-    private Point snapToGrid(int x, int y) {
-        int gridSize = model.getGridSize();
-
-        return new Point(x - x % gridSize, y - y % gridSize);
     }
 
     @Override
@@ -127,12 +120,10 @@ public class Maze extends JComponent implements MouseMotionListener,
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        Point pressed = snapToGrid(x, y);
-        Set<Point> wall = model.getWall();
 
         if (model.isMovableNode(x, y)) isMovingNode = true;
         else {
-            if (wall.contains(pressed)) {
+            if (model.isWall(x, y)) {
                 isErasingWall = true;
             } else {
                 isDrawingWall = true;

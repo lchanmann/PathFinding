@@ -14,4 +14,18 @@ public interface IExtendedViewModel extends IViewModel {
      * Reset
      */
     public void reset();
+
+    /**
+     * Add wall
+     * @param x
+     * @param y
+     */
+    public void addWall(int x, int y);
+
+    /**
+     * Remove wall
+     * @param x
+     * @param y
+     */
+    public void removeWall(int x, int y);
 }

@@ -74,4 +74,14 @@ public class MainView extends JFrame implements IMainView {
     public void moveNode(int x, int y) {
         controller.updateNode(x, y);
     }
+
+    @Override
+    public void addWall(int x, int y) {
+        controller.addWall(x, y);
+    }
+
+    @Override
+    public void removeWall(int x, int y) {
+        controller.removeWall(x, y);
+    }
 }

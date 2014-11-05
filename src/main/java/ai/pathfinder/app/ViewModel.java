@@ -2,6 +2,7 @@ package ai.pathfinder.app;
 
 import java.awt.Point;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import ai.pathfinder.framework.IStateChangedListener;
@@ -44,8 +45,8 @@ public class ViewModel implements IExtendedViewModel {
     }
 
     @Override
-    public Set<Point> getWall() {
-        return wall;
+    public Iterator<Point> getWall() {
+        return wall.iterator();
     }
 
     @Override
@@ -73,10 +74,27 @@ public class ViewModel implements IExtendedViewModel {
     }
 
     @Override
+    public boolean isWall(int x, int y) {
+        Point location = snapToGrid(x, y);
+        return wall.contains(location);
+    }
+
+    @Override
     public void updateNode(int x, int y) {
         Point location = snapToGrid(x, y);
-        
         movingNode.setLocation(location);
+    }
+
+    @Override
+    public void addWall(int x, int y) {
+        Point location = snapToGrid(x, y);
+        wall.add(location);
+    }
+
+    @Override
+    public void removeWall(int x, int y) {
+        Point location = snapToGrid(x, y);
+        wall.remove(location);
     }
 
     @Override
