@@ -2,18 +2,18 @@ package ai.pathfinder.app;
 
 import ai.pathfinder.framework.IController;
 import ai.pathfinder.framework.IMainView;
+import ai.pathfinder.framework.IExtendedViewModel;
 
 public class Controller implements IController {
 
-    private IMainView view;
-
-    public Controller(IMainView view) {
-        this.view = view;
-    }
+    private IExtendedViewModel model;
 
     @Override
-    public void init() {
-        view.init(this);
+    public void assignModel(IMainView view) {
+        if (model == null) {
+            model = new ViewModel();
+        }
+        view.setModel(model);
     }
 
     @Override
@@ -24,5 +24,10 @@ public class Controller implements IController {
     @Override
     public void reset() {
         System.out.println("Reset!");
+    }
+
+    @Override
+    public void updateNode(int x, int y) {
+        model.updateNode(x, y);
     }
 }

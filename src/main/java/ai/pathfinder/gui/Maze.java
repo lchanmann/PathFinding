@@ -7,30 +7,32 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JComponent;
+
+import ai.pathfinder.framework.IMainView;
+import ai.pathfinder.framework.IViewModel;
 
 public class Maze extends JComponent implements MouseMotionListener,
         MouseListener {
 
     private static final long serialVersionUID = 1L;
 
-    private final int blockSize = 25;
-    private final int width = 32;
-    private final int height = 22;
+    private IMainView mainView;
+    private IViewModel model;
 
-    private final Point startingPoint = new Point(250, 250);
-    private final Point goalPoint = new Point(550, 250);
-    private Point selectedPoint;
-    private final Set<Point> wall = new HashSet<Point>();
-    private boolean drawingWall;
-    private boolean erasingWall;
+    private boolean isMovingNode;
+    private boolean isDrawingWall;
+    private boolean isErasingWall;
 
     public Maze() {
         addMouseListener(this);
         addMouseMotionListener(this);
+    }
+
+    public void setMainView(IMainView mainView) {
+        this.mainView = mainView;
     }
 
     @Override
@@ -38,41 +40,55 @@ public class Maze extends JComponent implements MouseMotionListener,
         Graphics2D g2 = (Graphics2D) g;
         int containerWidth = getWidth();
         int containerHeight = getHeight();
+        
+        assignModel();
 
         g2.setBackground(Color.white);
         g2.clearRect(0, 0, containerWidth, containerHeight);
 
-        drawMaze(g2);
+        drawGridline(g2);
 
         drawWall(g2);
-        drawTarget(g2, startingPoint, Color.GREEN);
-        drawTarget(g2, goalPoint, Color.RED);
+        drawTarget(g2, model.getStartNode(), Color.GREEN);
+        drawTarget(g2, model.getGoalNode(), Color.RED);
+    }
+
+    private void assignModel() {
+        if (model == null) {
+            model = mainView.getModel();
+        }
     }
 
     private void drawWall(Graphics2D g2) {
-        for (Point block : wall) {
+        for (Point block : model.getWall()) {
             drawTarget(g2, block, Color.GRAY);
         }
     }
 
-    private void drawMaze(Graphics2D g2) {
+    private void drawGridline(Graphics2D g2) {
+        int gridSize = model.getGridSize();
+        int mazeRows = model.getMazeRows();
+        int mazeCols = model.getMazeCols();
+
         g2.setColor(Color.LIGHT_GRAY);
         // horizontal lines
-        for (int i = 0; i <= height; i++) {
-            g2.drawLine(0, i * blockSize, width * blockSize, i * blockSize);
+        for (int i = 0; i <= mazeRows; i++) {
+            g2.drawLine(0, i * gridSize, mazeCols * gridSize, i * gridSize);
         }
         // vertical lines
-        for (int j = 0; j <= width; j++) {
-            g2.drawLine(j * blockSize, 0, j * blockSize, height * blockSize);
+        for (int j = 0; j <= mazeCols; j++) {
+            g2.drawLine(j * gridSize, 0, j * gridSize, mazeRows * gridSize);
         }
     }
 
     private void drawTarget(Graphics2D g2, Point position, Color color) {
+        int gridSize = model.getGridSize();
+
         g2.setColor(color);
-        g2.fillRect(position.x, position.y, blockSize, blockSize);
+        g2.fillRect(position.x, position.y, gridSize, gridSize);
 
         g2.setColor(Color.LIGHT_GRAY);
-        g2.drawRect(position.x, position.y, blockSize, blockSize);
+        g2.drawRect(position.x, position.y, gridSize, gridSize);
     }
 
     @Override
@@ -80,22 +96,25 @@ public class Maze extends JComponent implements MouseMotionListener,
         int x = e.getX();
         int y = e.getY();
         Point dragged = snapToGrid(x, y);
+        Set<Point> wall = model.getWall();
 
-        if (selectedPoint != null) {
+        if (isMovingNode) {
             if (x > 0 && y > 0 &&
                     x < getWidth() && y < getHeight()) {
-                selectedPoint.setLocation(dragged);
+                mainView.moveNode(x, y);
             }
-        } else if (drawingWall) {
+        } else if (isDrawingWall) {
             wall.add(dragged);
-        } else if (erasingWall) {
+        } else if (isErasingWall) {
             wall.remove(dragged);
         }
         repaint();
     }
 
     private Point snapToGrid(int x, int y) {
-        return new Point(x - x % blockSize, y - y % blockSize);
+        int gridSize = model.getGridSize();
+
+        return new Point(x - x % gridSize, y - y % gridSize);
     }
 
     @Override
@@ -109,23 +128,23 @@ public class Maze extends JComponent implements MouseMotionListener,
         int x = e.getX();
         int y = e.getY();
         Point pressed = snapToGrid(x, y);
+        Set<Point> wall = model.getWall();
 
-        if (pressed.distance(startingPoint) == 0) selectedPoint = startingPoint;
-        else if (pressed.distance(goalPoint) == 0) selectedPoint = goalPoint;
+        if (model.isMovableNode(x, y)) isMovingNode = true;
         else {
             if (wall.contains(pressed)) {
-                erasingWall = true;
+                isErasingWall = true;
             } else {
-                drawingWall = true;
+                isDrawingWall = true;
             }
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        selectedPoint = null;
-        drawingWall = false;
-        erasingWall = false;
+        isMovingNode = false;
+        isDrawingWall = false;
+        isErasingWall = false;
     }
 
     @Override
