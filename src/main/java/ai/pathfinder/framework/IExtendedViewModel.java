@@ -9,4 +9,9 @@ public interface IExtendedViewModel extends IViewModel {
      * @param y
      */
     public void updateNode(int x, int y);
+
+    /**
+     * Reset
+     */
+    public void reset();
 }

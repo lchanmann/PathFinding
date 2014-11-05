@@ -1,7 +1,5 @@
 package ai.pathfinder.framework;
 
-import java.awt.Point;
-
 public interface IMainView {
 
     /**

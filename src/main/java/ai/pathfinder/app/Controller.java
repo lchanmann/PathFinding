@@ -23,7 +23,7 @@ public class Controller implements IController {
 
     @Override
     public void reset() {
-        System.out.println("Reset!");
+        model.reset();
     }
 
     @Override

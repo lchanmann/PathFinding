@@ -9,16 +9,23 @@ import ai.pathfinder.framework.IExtendedViewModel;
 
 public class ViewModel implements IExtendedViewModel {
 
+    private static int START_X = 250;
+    private static int START_Y = 250;
+    private static int GOAL_X = 550;
+    private static int GOAL_Y = 250;
+
     private final int[] mazeSize = new int[] {22, 32};
     private final int gridSize = 25;
     private final Set<Point> wall = new HashSet<Point>();
-    private final Point startNode = new Point(250, 250);
-    private final Point goalNode = new Point(550, 250);
+    private final Point startNode = new Point(START_X, START_Y);
+    private final Point goalNode = new Point(GOAL_X, GOAL_Y);
     private Point movingNode;
+
+    private IStateChangedListener stateChangedListener;
 
     @Override
     public void stateChanged(IStateChangedListener listener) {
-        listener.notifyChanged();
+        this.stateChangedListener = listener;
     }
 
     @Override
@@ -70,6 +77,15 @@ public class ViewModel implements IExtendedViewModel {
         Point location = snapToGrid(x, y);
         
         movingNode.setLocation(location);
+    }
+
+    @Override
+    public void reset() {
+        wall.clear();
+        startNode.move(START_X, START_Y);
+        goalNode.move(GOAL_X, GOAL_Y);
+
+        stateChangedListener.notifyChanged();
     }
     
     private Point snapToGrid(int x, int y) {
