@@ -113,7 +113,20 @@ public class Maze extends JComponent implements MouseMotionListener,
     public void mouseMoved(MouseEvent e) { }
 
     @Override
-    public void mouseClicked(MouseEvent e) { }
+    public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            int x = e.getX();
+            int y = e.getY();
+
+            if (!model.isMovableNode(x, y)) {
+                if (model.isWall(x, y)) {
+                    mainView.removeWall(x, y);
+                } else {
+                    mainView.addWall(x, y);
+                }
+            }
+        }
+    }
 
     @Override
     public void mousePressed(MouseEvent e) {
