@@ -88,7 +88,9 @@ public class ViewModel implements IExtendedViewModel {
     @Override
     public void addWall(int x, int y) {
         Point location = snapToGrid(x, y);
-        wall.add(location);
+        if (!location.equals(startNode))
+            if (!location.equals(goalNode))
+                wall.add(location);
     }
 
     @Override
