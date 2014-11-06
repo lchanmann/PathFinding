@@ -107,7 +107,6 @@ public class Maze extends JComponent implements MouseMotionListener,
         } else if (isErasingWall) {
             mainView.removeWall(x, y);
         }
-        repaint();
     }
 
     @Override

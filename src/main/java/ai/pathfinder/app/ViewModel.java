@@ -85,22 +85,27 @@ public class ViewModel implements IExtendedViewModel {
 
         if (!location.equals(startNode))
             if (!location.equals(goalNode))
-                if (!wall.contains(location))
+                if (!wall.contains(location)) {
                     movingNode.setLocation(location);
+                    stateChangedListener.notifyChanged();
+                }
     }
 
     @Override
     public void addWall(int x, int y) {
         Point location = snapToGrid(x, y);
         if (!location.equals(startNode))
-            if (!location.equals(goalNode))
+            if (!location.equals(goalNode)) {
                 wall.add(location);
+                stateChangedListener.notifyChanged();
+            }
     }
 
     @Override
     public void removeWall(int x, int y) {
         Point location = snapToGrid(x, y);
         wall.remove(location);
+        stateChangedListener.notifyChanged();
     }
 
     @Override
