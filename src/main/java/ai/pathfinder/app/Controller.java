@@ -18,7 +18,7 @@ public class Controller implements IController {
 
     @Override
     public void search() {
-        System.out.println("Finding ...");
+        System.out.println(model.toString());
     }
 
     @Override
