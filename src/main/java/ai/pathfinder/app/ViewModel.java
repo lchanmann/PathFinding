@@ -2,8 +2,10 @@ package ai.pathfinder.app;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
+import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Node;
 import ai.pathfinder.core.Problem;
 import ai.pathfinder.framework.IStateChangedListener;
@@ -22,6 +24,7 @@ public class ViewModel implements IExtendedViewModel {
     private final Node startNode = new Node(START_X, START_Y);
     private final Node goalNode = new Node(GOAL_X, GOAL_Y);
     private Node movingNode;
+    private Action[] solutionPath = null;
 
     private IStateChangedListener stateChangedListener;
 
@@ -61,6 +64,11 @@ public class ViewModel implements IExtendedViewModel {
     @Override
     public Node getGoalNode() {
         return new Node(goalNode.getX(), goalNode.getY());
+    }
+
+    @Override
+    public Action[] getSolutionPath() {
+        return solutionPath;
     }
 
     @Override
@@ -124,7 +132,13 @@ public class ViewModel implements IExtendedViewModel {
 
     @Override
     public Problem toProblem() {
-        return new Problem(startNode, goalNode);
+        return new Problem(startNode, goalNode, wall, gridSize);
+    }
+
+    @Override
+    public void setSolution(List<Action> path) {
+        this.solutionPath = path.toArray(new Action[] {});
+        stateChangedListener.notifyChanged();
     }
 
 }

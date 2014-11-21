@@ -4,10 +4,18 @@ public class Node {
 
     private int x;
     private int y;
+    private Node parent;
+    private Action action;
 
     public Node(int x, int y) {
+        this(x, y, null, null);
+    }
+
+    public Node(int x, int y, Node parent, Action action) {
         this.x = x;
         this.y = y;
+        this.parent = parent;
+        this.action = action;
     }
     
     public int getX() {
@@ -16,6 +24,10 @@ public class Node {
     
     public int getY() {
         return y;
+    }
+
+    public Node getParent() {
+        return parent;
     }
 
     @Override
@@ -41,5 +53,17 @@ public class Node {
     public void setLocation(Node node) {
         this.x = node.x;
         this.y = node.y;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("(").append(x).append(",").append(y).append(")");
+        return sb.toString();
+    }
+
+    public Action getAction() {
+        return action;
     }
 }

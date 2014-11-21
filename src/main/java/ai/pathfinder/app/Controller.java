@@ -1,5 +1,6 @@
 package ai.pathfinder.app;
 
+import ai.pathfinder.core.Solution;
 import ai.pathfinder.framework.IController;
 import ai.pathfinder.framework.IMainView;
 import ai.pathfinder.framework.IExtendedViewModel;
@@ -19,8 +20,9 @@ public class Controller implements IController {
 
     @Override
     public void search(String algorithm) {
-        SearchFactory.build(algorithm)
+        Solution solution = (Solution) SearchFactory.build(algorithm)
             .search(model.toProblem());
+        model.setSolution(solution.getPath());
     }
 
     @Override

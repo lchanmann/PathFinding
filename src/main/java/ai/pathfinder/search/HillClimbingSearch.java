@@ -5,9 +5,10 @@ import ai.pathfinder.core.Problem;
 public class HillClimbingSearch implements SearchAlgorithm {
 
     @Override
-    public void search(Problem problem) {
+    public SearchResult search(Problem problem) {
         System.out.println("Starting: Hill-Climbing Search ...");
         System.out.println(problem.toString());
+        return null;
     }
 
 }

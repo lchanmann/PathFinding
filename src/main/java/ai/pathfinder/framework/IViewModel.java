@@ -2,6 +2,7 @@ package ai.pathfinder.framework;
 
 import java.util.Iterator;
 
+import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Node;
 
 public interface IViewModel {
@@ -46,6 +47,12 @@ public interface IViewModel {
      * @return
      */
     public Node getGoalNode();
+
+    /**
+     * Get solution path
+     * @return 
+     */
+    public Action[] getSolutionPath();
 
     /**
      * Check if the position is a movable node (start or goal node)

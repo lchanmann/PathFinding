@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import javax.swing.JComponent;
 
+import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Node;
 import ai.pathfinder.framework.IMainView;
 import ai.pathfinder.framework.IViewModel;
@@ -49,8 +50,43 @@ public class Maze extends JComponent implements MouseMotionListener,
         drawGridline(g2);
 
         drawWall(g2);
-        drawTarget(g2, model.getStartNode(), Color.GREEN);
-        drawTarget(g2, model.getGoalNode(), Color.RED);
+        drawNode(g2, model.getStartNode(), Color.GREEN);
+        drawNode(g2, model.getGoalNode(), Color.RED);
+        drawPath(g2, Color.ORANGE);
+    }
+
+    private void drawPath(Graphics2D g2, Color color) {
+        Action[] path = model.getSolutionPath();
+        if (path != null) {
+            Node node = model.getStartNode();
+            int gridSize = model.getGridSize();
+            int offset = 12;
+            int x = node.getX() + offset;
+            int y = node.getY() + offset;
+            
+
+            g2.setColor(color);
+            for (Action action : path) {
+                switch (action) {
+                case LEFT:
+                    g2.fillRect(x, y, gridSize, 2);
+                    x += gridSize;
+                    break;
+                case RIGHT:
+                    x -= gridSize;
+                    g2.fillRect(x, y, gridSize, 2);
+                    break;
+                case UP:
+                    y -= gridSize;
+                    g2.fillRect(x, y, 2, gridSize);
+                    break;
+                case DOWN:
+                    g2.fillRect(x, y, 2, gridSize);
+                    y += gridSize;
+                    break;
+                }
+            }
+        }
     }
 
     private void assignModel() {
@@ -62,7 +98,7 @@ public class Maze extends JComponent implements MouseMotionListener,
     private void drawWall(Graphics2D g2) {
         Iterator<Node> wall = model.getWall();
         while (wall.hasNext()) {
-            drawTarget(g2, wall.next(), Color.GRAY);
+            drawNode(g2, wall.next(), Color.GRAY);
         }
     }
 
@@ -82,7 +118,7 @@ public class Maze extends JComponent implements MouseMotionListener,
         }
     }
 
-    private void drawTarget(Graphics2D g2, Node node, Color color) {
+    private void drawNode(Graphics2D g2, Node node, Color color) {
         int gridSize = model.getGridSize();
 
         g2.setColor(color);
