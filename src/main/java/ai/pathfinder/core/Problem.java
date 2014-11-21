@@ -32,7 +32,7 @@ public class Problem {
         return sb.toString();
     }
 
-    public Action[] getActions(Node node) {
+    public List<Action> getActions(Node node) {
         List<Action> actions = new ArrayList<Action>();
         int x = node.getX();
         int y = node.getY();
@@ -46,7 +46,7 @@ public class Problem {
         if (!wall.contains(new Node(x, y - nodeSize)))
             actions.add(Action.UP);
 
-        return actions.toArray(new Action[] {});
+        return actions;
     }
 
     public Node getResult(Node node, Action action) {

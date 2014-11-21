@@ -1,7 +1,5 @@
 package ai.pathfinder.framework;
 
-import java.util.List;
-
 import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Problem;
 
@@ -44,5 +42,5 @@ public interface IExtendedViewModel extends IViewModel {
      * Set solution path
      * @param path
      */
-    public void setSolution(List<Action> path);
+    public void setSolutionPath(Action[] solutionPath);
 }

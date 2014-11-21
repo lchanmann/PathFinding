@@ -2,7 +2,6 @@ package ai.pathfinder.app;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import ai.pathfinder.core.Action;
@@ -136,8 +135,8 @@ public class ViewModel implements IExtendedViewModel {
     }
 
     @Override
-    public void setSolution(List<Action> path) {
-        this.solutionPath = path.toArray(new Action[] {});
+    public void setSolutionPath(Action[] solutionPath) {
+        this.solutionPath = solutionPath;
         stateChangedListener.notifyChanged();
     }
 

@@ -13,7 +13,7 @@ public class Solution implements SearchResult {
         this.node = node;
     }
 
-    public List<Action> getPath() {
+    public Action[] getPath() {
         List<Action> path = new ArrayList<Action>();
         Node parent = node;
 
@@ -22,7 +22,7 @@ public class Solution implements SearchResult {
                 path.add(0, parent.getAction());
             }
         } while ((parent = parent.getParent()) != null);
-        return path;
+        return path.toArray(new Action[] {});
     }
 
     

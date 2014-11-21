@@ -22,7 +22,7 @@ public class Controller implements IController {
     public void search(String algorithm) {
         Solution solution = (Solution) SearchFactory.build(algorithm)
             .search(model.toProblem());
-        model.setSolution(solution.getPath());
+        model.setSolutionPath(solution.getPath());
     }
 
     @Override
