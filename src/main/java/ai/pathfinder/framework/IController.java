@@ -11,7 +11,7 @@ public interface IController {
     /**
      * Search
      */
-    public void search();
+    public void search(String algorithm);
 
     /**
      * Reset

@@ -62,8 +62,8 @@ public class MainView extends JFrame implements IMainView {
     }
 
     @Override
-    public void startSearch() {
-        controller.search();
+    public void startSearch(String algorithm) {
+        controller.search(algorithm);
     }
 
     @Override

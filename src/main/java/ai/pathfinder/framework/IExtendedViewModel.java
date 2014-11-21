@@ -1,5 +1,7 @@
 package ai.pathfinder.framework;
 
+import ai.pathfinder.core.Problem;
+
 
 public interface IExtendedViewModel extends IViewModel {
 
@@ -28,4 +30,10 @@ public interface IExtendedViewModel extends IViewModel {
      * @param y
      */
     public void removeWall(int x, int y);
+
+    /**
+     * Convert model to search problem
+     * @return
+     */
+    public Problem toProblem();
 }

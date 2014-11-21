@@ -3,6 +3,7 @@ package ai.pathfinder.app;
 import ai.pathfinder.framework.IController;
 import ai.pathfinder.framework.IMainView;
 import ai.pathfinder.framework.IExtendedViewModel;
+import ai.pathfinder.utils.SearchFactory;
 
 public class Controller implements IController {
 
@@ -17,8 +18,9 @@ public class Controller implements IController {
     }
 
     @Override
-    public void search() {
-        System.out.println(model.toString());
+    public void search(String algorithm) {
+        SearchFactory.build(algorithm)
+            .search(model.toProblem());
     }
 
     @Override

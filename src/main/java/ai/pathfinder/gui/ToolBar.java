@@ -20,8 +20,10 @@ public class ToolBar extends JToolBar implements ActionListener {
 
     public ToolBar() {
         algorithmCombo = new JComboBox<String>(new String[] {
-                "A* - Manhattan",
-                "Hill-Climbing", "Simulated Annealing" });
+                "Breath-First Search",
+                "Greedy Best-First Search",
+                "A*",
+                "Hill-Climbing" });
         add(algorithmCombo);
 
         runButton = new JButton("Run");
@@ -38,7 +40,7 @@ public class ToolBar extends JToolBar implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == runButton) {
-            mainView.startSearch();
+            mainView.startSearch(algorithmCombo.getSelectedItem().toString());
         } else if (e.getSource() == resetButton) {
             mainView.resetView();
         }

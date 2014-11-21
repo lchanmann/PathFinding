@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import ai.pathfinder.core.Problem;
 import ai.pathfinder.framework.IStateChangedListener;
 import ai.pathfinder.framework.IExtendedViewModel;
 
@@ -120,15 +121,10 @@ public class ViewModel implements IExtendedViewModel {
     private Point snapToGrid(int x, int y) {
         return new Point(x - x % gridSize, y - y % gridSize);
     }
-    
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
 
-        sb.append("Start: (").append(startNode.x).append(",").append(startNode.y).append(")").append("\n")
-          .append("Goal: (").append(goalNode.x).append(",").append(goalNode.y).append(")")
-          .append("\n");
-        return sb.toString();
+    @Override
+    public Problem toProblem() {
+        return new Problem(startNode, goalNode);
     }
 
 }

@@ -22,7 +22,7 @@ public interface IMainView {
     /**
      * Start search from view
      */
-    public void startSearch();
+    public void startSearch(String algorithm);
 
     /**
      * Reset view
