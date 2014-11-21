@@ -1,5 +1,7 @@
 package ai.pathfinder.core;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Problem {
@@ -30,9 +32,21 @@ public class Problem {
         return sb.toString();
     }
 
-    // TODO: check for the wall
     public Action[] getActions(Node node) {
-        return Action.values();
+        List<Action> actions = new ArrayList<Action>();
+        int x = node.getX();
+        int y = node.getY();
+
+        if (!wall.contains(new Node(x + nodeSize, y)))
+            actions.add(Action.LEFT);
+        if (!wall.contains(new Node(x, y + nodeSize)))
+            actions.add(Action.DOWN);
+        if (!wall.contains(new Node(x - nodeSize, y)))
+            actions.add(Action.RIGHT);
+        if (!wall.contains(new Node(x, y - nodeSize)))
+            actions.add(Action.UP);
+
+        return actions.toArray(new Action[] {});
     }
 
     public Node getResult(Node node, Action action) {
