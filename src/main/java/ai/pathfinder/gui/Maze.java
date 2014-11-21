@@ -58,7 +58,7 @@ public class Maze extends JComponent implements MouseMotionListener,
     private void drawPath(Graphics2D g2, Color color) {
         Action[] path = model.getSolutionPath();
         if (path != null) {
-            Node node = model.getStartNode();
+            Node node = model.getSolutionStartNode();
             int gridSize = model.getGridSize();
             int offset = 12;
             int x = node.getX() + offset;

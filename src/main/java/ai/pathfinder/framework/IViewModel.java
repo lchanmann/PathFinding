@@ -70,4 +70,10 @@ public interface IViewModel {
      */
     public boolean isWall(int x, int y);
 
+    /**
+     * Get solution start node
+     * @return
+     */
+    public Node getSolutionStartNode();
+
 }

@@ -23,6 +23,7 @@ public class ViewModel implements IExtendedViewModel {
     private final Node startNode = new Node(START_X, START_Y);
     private final Node goalNode = new Node(GOAL_X, GOAL_Y);
     private Node movingNode;
+    private Node solutionStartNode = null;
     private Action[] solutionPath = null;
 
     private IStateChangedListener stateChangedListener;
@@ -68,6 +69,11 @@ public class ViewModel implements IExtendedViewModel {
     @Override
     public Action[] getSolutionPath() {
         return solutionPath;
+    }
+
+    @Override
+    public Node getSolutionStartNode() {
+        return solutionStartNode;
     }
 
     @Override
@@ -136,6 +142,7 @@ public class ViewModel implements IExtendedViewModel {
 
     @Override
     public void setSolutionPath(Action[] solutionPath) {
+        this.solutionStartNode = new Node(startNode.getX(), startNode.getY());
         this.solutionPath = solutionPath;
         stateChangedListener.notifyChanged();
     }
