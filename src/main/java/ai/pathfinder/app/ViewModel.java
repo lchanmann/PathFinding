@@ -127,6 +127,8 @@ public class ViewModel implements IExtendedViewModel {
         wall.clear();
         startNode.setLocation(new Node(START_X, START_Y));
         goalNode.setLocation(new Node(GOAL_X, GOAL_Y));
+        solutionStartNode = null;
+        solutionPath = null;
 
         stateChangedListener.notifyChanged();
     }
