@@ -1,13 +1,11 @@
 package ai.pathfinder.core;
 
-import java.awt.Point;
-
 public class Problem {
 
-    private Point start;
-    private Point goal;
+    public Node start;
+    public Node goal;
 
-    public Problem(Point start, Point goal) {
+    public Problem(Node start, Node goal) {
         this.start = start;
         this.goal = goal;
     }
@@ -16,8 +14,8 @@ public class Problem {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Start: (").append(start.x).append(",").append(start.y).append(")").append("\n")
-          .append("Goal: (").append(goal.x).append(",").append(goal.y).append(")")
+        sb.append("Start: (").append(start.getX()).append(",").append(start.getY()).append(")").append("\n")
+          .append("Goal: (").append(goal.getX()).append(",").append(goal.getY()).append(")")
           .append("\n");
         return sb.toString();
     }

@@ -1,7 +1,8 @@
 package ai.pathfinder.framework;
 
-import java.awt.Point;
 import java.util.Iterator;
+
+import ai.pathfinder.core.Node;
 
 public interface IViewModel {
 
@@ -32,19 +33,19 @@ public interface IViewModel {
      * Get wall
      * @return
      */
-    public Iterator<Point> getWall();
+    public Iterator<Node> getWall();
 
     /**
      * Get start node
      * @return
      */
-    public Point getStartNode();
+    public Node getStartNode();
 
     /**
      * Get goal node
      * @return
      */
-    public Point getGoalNode();
+    public Node getGoalNode();
 
     /**
      * Check if the position is a movable node (start or goal node)

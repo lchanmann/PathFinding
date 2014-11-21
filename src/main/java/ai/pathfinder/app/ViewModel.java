@@ -1,10 +1,10 @@
 package ai.pathfinder.app;
 
-import java.awt.Point;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import ai.pathfinder.core.Node;
 import ai.pathfinder.core.Problem;
 import ai.pathfinder.framework.IStateChangedListener;
 import ai.pathfinder.framework.IExtendedViewModel;
@@ -18,10 +18,10 @@ public class ViewModel implements IExtendedViewModel {
 
     private final int[] mazeSize = new int[] {22, 32};
     private final int gridSize = 25;
-    private final Set<Point> wall = new HashSet<Point>();
-    private final Point startNode = new Point(START_X, START_Y);
-    private final Point goalNode = new Point(GOAL_X, GOAL_Y);
-    private Point movingNode;
+    private final Set<Node> wall = new HashSet<Node>();
+    private final Node startNode = new Node(START_X, START_Y);
+    private final Node goalNode = new Node(GOAL_X, GOAL_Y);
+    private Node movingNode;
 
     private IStateChangedListener stateChangedListener;
 
@@ -46,29 +46,29 @@ public class ViewModel implements IExtendedViewModel {
     }
 
     @Override
-    public Iterator<Point> getWall() {
+    public Iterator<Node> getWall() {
         return wall.iterator();
     }
 
     @Override
-    public Point getStartNode() {
+    public Node getStartNode() {
         /**
          * Instantiate new object to prevent direct update from view
          */
-        return new Point(startNode.x, startNode.y);
+        return new Node(startNode.getX(), startNode.getY());
     }
 
     @Override
-    public Point getGoalNode() {
-        return new Point(goalNode.x, goalNode.y);
+    public Node getGoalNode() {
+        return new Node(goalNode.getX(), goalNode.getY());
     }
 
     @Override
     public boolean isMovableNode(int x, int y) {
-        Point location = snapToGrid(x, y);
+        Node node = snapToGrid(x, y);
         
-        if (startNode.distance(location) == 0) movingNode = startNode;
-        else if (goalNode.distance(location) == 0) movingNode = goalNode;
+        if (startNode.equals(node)) movingNode = startNode;
+        else if (goalNode.equals(node)) movingNode = goalNode;
         else movingNode = null;
 
         return movingNode != null;
@@ -76,35 +76,35 @@ public class ViewModel implements IExtendedViewModel {
 
     @Override
     public boolean isWall(int x, int y) {
-        Point location = snapToGrid(x, y);
+        Node location = snapToGrid(x, y);
         return wall.contains(location);
     }
 
     @Override
     public void updateNode(int x, int y) {
-        Point location = snapToGrid(x, y);
+        Node node = snapToGrid(x, y);
 
-        if (!location.equals(startNode))
-            if (!location.equals(goalNode))
-                if (!wall.contains(location)) {
-                    movingNode.setLocation(location);
+        if (!node.equals(startNode))
+            if (!node.equals(goalNode))
+                if (!wall.contains(node)) {
+                    movingNode.setLocation(node);
                     stateChangedListener.notifyChanged();
                 }
     }
 
     @Override
     public void addWall(int x, int y) {
-        Point location = snapToGrid(x, y);
-        if (!location.equals(startNode))
-            if (!location.equals(goalNode)) {
-                wall.add(location);
+        Node node = snapToGrid(x, y);
+        if (!node.equals(startNode))
+            if (!node.equals(goalNode)) {
+                wall.add(node);
                 stateChangedListener.notifyChanged();
             }
     }
 
     @Override
     public void removeWall(int x, int y) {
-        Point location = snapToGrid(x, y);
+        Node location = snapToGrid(x, y);
         wall.remove(location);
         stateChangedListener.notifyChanged();
     }
@@ -112,14 +112,14 @@ public class ViewModel implements IExtendedViewModel {
     @Override
     public void reset() {
         wall.clear();
-        startNode.move(START_X, START_Y);
-        goalNode.move(GOAL_X, GOAL_Y);
+        startNode.setLocation(new Node(START_X, START_Y));
+        goalNode.setLocation(new Node(GOAL_X, GOAL_Y));
 
         stateChangedListener.notifyChanged();
     }
     
-    private Point snapToGrid(int x, int y) {
-        return new Point(x - x % gridSize, y - y % gridSize);
+    private Node snapToGrid(int x, int y) {
+        return new Node(x - x % gridSize, y - y % gridSize);
     }
 
     @Override

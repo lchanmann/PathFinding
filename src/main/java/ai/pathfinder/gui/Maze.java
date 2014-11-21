@@ -3,7 +3,6 @@ package ai.pathfinder.gui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -11,6 +10,7 @@ import java.util.Iterator;
 
 import javax.swing.JComponent;
 
+import ai.pathfinder.core.Node;
 import ai.pathfinder.framework.IMainView;
 import ai.pathfinder.framework.IViewModel;
 
@@ -60,7 +60,7 @@ public class Maze extends JComponent implements MouseMotionListener,
     }
 
     private void drawWall(Graphics2D g2) {
-        Iterator<Point> wall = model.getWall();
+        Iterator<Node> wall = model.getWall();
         while (wall.hasNext()) {
             drawTarget(g2, wall.next(), Color.GRAY);
         }
@@ -82,14 +82,14 @@ public class Maze extends JComponent implements MouseMotionListener,
         }
     }
 
-    private void drawTarget(Graphics2D g2, Point position, Color color) {
+    private void drawTarget(Graphics2D g2, Node node, Color color) {
         int gridSize = model.getGridSize();
 
         g2.setColor(color);
-        g2.fillRect(position.x, position.y, gridSize, gridSize);
+        g2.fillRect(node.getX(), node.getY(), gridSize, gridSize);
 
         g2.setColor(Color.LIGHT_GRAY);
-        g2.drawRect(position.x, position.y, gridSize, gridSize);
+        g2.drawRect(node.getX(), node.getY(), gridSize, gridSize);
     }
 
     @Override
