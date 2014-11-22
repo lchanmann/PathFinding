@@ -17,7 +17,9 @@ public class ViewModel implements IExtendedViewModel {
     private static int GOAL_X = 550;
     private static int GOAL_Y = 250;
 
-    private final int[] mazeSize = new int[] {22, 32};
+//    private final int[] mazeSize = new int[] {22, 32};
+    private final int mazeWidth = 800;
+    private final int mazeHeight = 550;
     private final int gridSize = 25;
     private final Set<Node> wall = new HashSet<Node>();
     private final Node startNode = new Node(START_X, START_Y);
@@ -39,13 +41,13 @@ public class ViewModel implements IExtendedViewModel {
     }
 
     @Override
-    public int getMazeRows() {
-        return mazeSize[0];
+    public int getMazeWidth() {
+        return mazeWidth;
     }
 
     @Override
-    public int getMazeCols() {
-        return mazeSize[1];
+    public int getMazeHeight() {
+        return mazeHeight;
     }
 
     @Override
@@ -139,7 +141,7 @@ public class ViewModel implements IExtendedViewModel {
 
     @Override
     public Problem toProblem() {
-        return new Problem(mazeSize[0] * gridSize, mazeSize[1] * gridSize,
+        return new Problem(mazeWidth, mazeHeight,
                 startNode, goalNode, wall, gridSize);
     }
 

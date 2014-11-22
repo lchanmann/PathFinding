@@ -104,17 +104,17 @@ public class Maze extends JComponent implements MouseMotionListener,
 
     private void drawGridline(Graphics2D g2) {
         int gridSize = model.getGridSize();
-        int mazeRows = model.getMazeRows();
-        int mazeCols = model.getMazeCols();
+        int mazeWidth = model.getMazeWidth();
+        int mazeHeight = model.getMazeHeight();
 
         g2.setColor(Color.LIGHT_GRAY);
         // horizontal lines
-        for (int i = 0; i <= mazeRows; i++) {
-            g2.drawLine(0, i * gridSize, mazeCols * gridSize, i * gridSize);
+        for (int y = 0; y <= mazeHeight; y += gridSize) {
+            g2.drawLine(0, y, mazeWidth, y);
         }
         // vertical lines
-        for (int j = 0; j <= mazeCols; j++) {
-            g2.drawLine(j * gridSize, 0, j * gridSize, mazeRows * gridSize);
+        for (int x = 0; x <= mazeWidth; x += gridSize) {
+            g2.drawLine(x, 0, x, mazeHeight);
         }
     }
 

@@ -20,15 +20,15 @@ public interface IViewModel {
     public int getGridSize();
 
     /**
-     * Get maze rows
+     * Get maze width
      * @return
      */
-    public int getMazeRows();
+    public int getMazeWidth();
 
     /**
-     * Get maze columns
+     * Get maze height
      */
-    public int getMazeCols();
+    public int getMazeHeight();
 
     /**
      * Get wall
