@@ -139,7 +139,8 @@ public class ViewModel implements IExtendedViewModel {
 
     @Override
     public Problem toProblem() {
-        return new Problem(startNode, goalNode, wall, gridSize);
+        return new Problem(mazeSize[0] * gridSize, mazeSize[1] * gridSize,
+                startNode, goalNode, wall, gridSize);
     }
 
     @Override
