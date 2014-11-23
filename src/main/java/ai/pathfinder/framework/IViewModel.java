@@ -2,6 +2,7 @@ package ai.pathfinder.framework;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Node;
@@ -10,9 +11,15 @@ public interface IViewModel {
 
     /**
      * Set state changed listener
-     * @param listener
+     * @param consumer
      */
-    public void stateChanged(IStateChangedListener listener);
+    public void onStateChanged(Consumer<IViewModel> consumer);
+
+    /**
+     * Set on searching consumer
+     * @param consumer
+     */
+    public void onSearching(Consumer<Boolean> consumer);
 
     /**
      * Get grid size
@@ -88,5 +95,11 @@ public interface IViewModel {
      * @return
      */
     public List<Node> getExplored();
+
+    /**
+     * Check if searching
+     * @return
+     */
+    public boolean isSearching();
 
 }

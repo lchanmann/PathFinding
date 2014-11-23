@@ -53,10 +53,6 @@ public class MainView extends JFrame implements IMainView {
     @Override
     public void setModel(IViewModel model) {
         this.model = model;
-        //NOTE: repaint the maze whenever the model changed.
-        model.stateChanged(() -> {
-            maze.paintImmediately(0, 0, model.getMazeWidth(), model.getMazeHeight());
-        });
     }
 
     @Override
@@ -66,7 +62,12 @@ public class MainView extends JFrame implements IMainView {
 
     @Override
     public void startSearch(Algorithm algorithm) {
-        controller.search(algorithm);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                controller.search(algorithm);
+            }
+        }).start();
     }
 
     @Override
@@ -87,5 +88,16 @@ public class MainView extends JFrame implements IMainView {
     @Override
     public void removeWall(int x, int y) {
         controller.removeWall(x, y);
+    }
+
+    @Override
+    public void repaintMaze() {
+        maze.paintImmediately(0, 0, model.getMazeWidth(), model.getMazeHeight());
+    }
+
+    @Override
+    public void searchingUI() {
+        maze.isSearching(model.isSearching());
+        toolbar.isSearching(model.isSearching());
     }
 }

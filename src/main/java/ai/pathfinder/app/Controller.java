@@ -16,6 +16,9 @@ public class Controller implements IController {
     public void assignModel(IMainView view) {
         if (model == null) {
             model = new ViewModel();
+            // NOTE: repaint the maze whenever the model changed.
+            model.onStateChanged(model -> view.repaintMaze()); // NOTE: model is not being used
+            model.onSearching(value -> view.searchingUI()); // NOTE: value is not being used
         }
         view.setModel(model);
     }
@@ -26,11 +29,13 @@ public class Controller implements IController {
         SearchAlgorithm search = algorithm.getSearchAlgorithm();
         search.onFrontierChanged((frontier) -> model.updateFrontier(frontier));
         search.onExploredChanged((explored) -> model.updateExplored(explored));
-        SearchResult searchResult = search.search(model.toProblem());
 
+        model.isSearching(true);
+        SearchResult searchResult = search.search(model.toProblem());
         if (searchResult instanceof Solution) {
             model.setSolutionPath(((Solution) searchResult).getPath());
         }
+        model.isSearching(false);
     }
 
     @Override

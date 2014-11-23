@@ -28,6 +28,9 @@ public class Maze extends JComponent implements MouseMotionListener,
     private boolean isDrawingWall;
     private boolean isErasingWall;
 
+    private final Color lightGreen = new Color(160, 220, 160);
+    private final Color lightBlue = new Color(226, 238, 253);
+
     public Maze() {
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -49,8 +52,8 @@ public class Maze extends JComponent implements MouseMotionListener,
         g2.clearRect(0, 0, containerWidth, containerHeight);
 
         drawGridline(g2);
-        drawNodes(g2, model.getFrontier(), new Color(160, 220, 160));
-        drawNodes(g2, model.getExplored(), new Color(226, 238, 253));
+        drawNodes(g2, model.getFrontier(), lightGreen);
+        drawNodes(g2, model.getExplored(), lightBlue);
         drawWall(g2);
         drawNode(g2, model.getStartNode(), Color.GREEN);
         drawNode(g2, model.getGoalNode(), Color.RED);
@@ -201,4 +204,14 @@ public class Maze extends JComponent implements MouseMotionListener,
 
     @Override
     public void mouseExited(MouseEvent e) { }
+
+    public void isSearching(Boolean searching) {
+        if (searching) {
+            removeMouseListener(this);
+            removeMouseMotionListener(this);
+        } else {
+            addMouseListener(this);
+            addMouseMotionListener(this);
+        }
+    }
 }

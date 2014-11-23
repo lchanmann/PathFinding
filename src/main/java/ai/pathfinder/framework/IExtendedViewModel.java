@@ -59,4 +59,10 @@ public interface IExtendedViewModel extends IViewModel {
      * @return
      */
     public void updateExplored(List<Node> explored);
+
+    /**
+     * Set searching status
+     * @param searching
+     */
+    public void isSearching(boolean searching);
 }

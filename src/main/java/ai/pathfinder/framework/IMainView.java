@@ -52,4 +52,11 @@ public interface IMainView {
      */
     public void removeWall(int x, int y);
 
+    /**
+     * Repaint the maze
+     */
+    public void repaintMaze();
+
+    public void searchingUI();
+
 }

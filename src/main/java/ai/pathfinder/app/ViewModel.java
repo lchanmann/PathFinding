@@ -4,12 +4,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Node;
 import ai.pathfinder.core.Problem;
-import ai.pathfinder.framework.IStateChangedListener;
 import ai.pathfinder.framework.IExtendedViewModel;
+import ai.pathfinder.framework.IViewModel;
 
 public class ViewModel implements IExtendedViewModel {
 
@@ -29,12 +30,19 @@ public class ViewModel implements IExtendedViewModel {
     private Action[] solutionPath = null;
     private List<Node> frontier = null;
     private List<Node> explored = null;
+    private boolean searching = false;
 
-    private IStateChangedListener stateChangedListener;
+    private Consumer<IViewModel> stateChangedConsumer;
+    private Consumer<Boolean> searchingConsumer;
 
     @Override
-    public void stateChanged(IStateChangedListener listener) {
-        this.stateChangedListener = listener;
+    public void onStateChanged(Consumer<IViewModel> consumer) {
+        this.stateChangedConsumer = consumer;
+    }
+
+    @Override
+    public void onSearching(Consumer<Boolean> consumer) {
+        searchingConsumer = consumer;
     }
 
     @Override
@@ -105,7 +113,7 @@ public class ViewModel implements IExtendedViewModel {
             if (!node.equals(goalNode))
                 if (!wall.contains(node)) {
                     movingNode.setLocation(node);
-                    stateChangedListener.notifyChanged();
+                    stateChangedConsumer.accept(this);
                 }
     }
 
@@ -115,7 +123,7 @@ public class ViewModel implements IExtendedViewModel {
         if (!node.equals(startNode))
             if (!node.equals(goalNode)) {
                 wall.add(node);
-                stateChangedListener.notifyChanged();
+                stateChangedConsumer.accept(this);
             }
     }
 
@@ -123,7 +131,7 @@ public class ViewModel implements IExtendedViewModel {
     public void removeWall(int x, int y) {
         Node location = snapToGrid(x, y);
         wall.remove(location);
-        stateChangedListener.notifyChanged();
+        stateChangedConsumer.accept(this);
     }
 
     @Override
@@ -135,8 +143,9 @@ public class ViewModel implements IExtendedViewModel {
         solutionPath = null;
         frontier = null;
         explored = null;
+        searching = false;
 
-        stateChangedListener.notifyChanged();
+        stateChangedConsumer.accept(this);
     }
     
     private Node snapToGrid(int x, int y) {
@@ -153,13 +162,13 @@ public class ViewModel implements IExtendedViewModel {
     public void setSolutionPath(Action[] solutionPath) {
         this.solutionPath = solutionPath;
         this.solutionStartNode = new Node(startNode.getX(), startNode.getY());
-        stateChangedListener.notifyChanged();
+        stateChangedConsumer.accept(this);
     }
 
     @Override
     public void updateFrontier(List<Node> frontier) {
         this.frontier = frontier;
-        stateChangedListener.notifyChanged();
+        stateChangedConsumer.accept(this);
     }
 
     @Override
@@ -170,11 +179,22 @@ public class ViewModel implements IExtendedViewModel {
     @Override
     public void updateExplored(List<Node> explored) {
         this.explored = explored;
-        stateChangedListener.notifyChanged();
+        stateChangedConsumer.accept(this);
     }
 
     @Override
     public List<Node> getExplored() {
         return explored;
+    }
+
+    @Override
+    public void isSearching(boolean searching) {
+        this.searching = searching;
+        searchingConsumer.accept(searching);
+    }
+
+    @Override
+    public boolean isSearching() {
+        return searching;
     }
 }

@@ -19,6 +19,8 @@ public class ToolBar extends JToolBar implements ActionListener {
     private JButton runButton;
     private JButton resetButton;
 
+    private boolean searching = false;
+
     public ToolBar() {
         algorithmCombo = new JComboBox<Algorithm>(Algorithm.values());
         add(algorithmCombo);
@@ -45,5 +47,18 @@ public class ToolBar extends JToolBar implements ActionListener {
 
     public void setMainView(IMainView mainView) {
         this.mainView = mainView;
+    }
+
+    public void isSearching(boolean searching) {
+        if (this.searching != searching) {
+            this.searching = searching;
+            updateToolbar();
+        }
+    }
+
+    private void updateToolbar() {
+        algorithmCombo.setEnabled(!searching);
+        runButton.setEnabled(!searching);
+        resetButton.setEnabled(!searching);
     }
 }
