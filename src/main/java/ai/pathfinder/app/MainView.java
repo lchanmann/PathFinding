@@ -55,7 +55,7 @@ public class MainView extends JFrame implements IMainView {
         this.model = model;
         //NOTE: repaint the maze whenever the model changed.
         model.stateChanged(() -> {
-            maze.repaint();
+            maze.paintImmediately(0, 0, model.getMazeWidth(), model.getMazeHeight());
         });
     }
 
