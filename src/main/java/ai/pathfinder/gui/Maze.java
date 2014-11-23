@@ -69,12 +69,12 @@ public class Maze extends JComponent implements MouseMotionListener,
             for (Action action : path) {
                 switch (action) {
                 case LEFT:
-                    g2.fillRect(x, y, gridSize, 2);
-                    x += gridSize;
-                    break;
-                case RIGHT:
                     x -= gridSize;
                     g2.fillRect(x, y, gridSize, 2);
+                    break;
+                case RIGHT:
+                    g2.fillRect(x, y, gridSize, 2);
+                    x += gridSize;
                     break;
                 case UP:
                     y -= gridSize;

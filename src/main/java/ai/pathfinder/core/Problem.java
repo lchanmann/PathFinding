@@ -42,14 +42,14 @@ public class Problem {
         int x = node.getX();
         int y = node.getY();
 
-        if (!wall.contains(new Node(x + nodeSize, y)))
-            if (x < width)
-                actions.add(Action.LEFT);
-        if (!wall.contains(new Node(x, y + nodeSize)))
-            if (y < height)
-            actions.add(Action.DOWN);
         if (!wall.contains(new Node(x - nodeSize, y)))
             if (x > 0)
+                actions.add(Action.LEFT);
+        if (!wall.contains(new Node(x, y + nodeSize)))
+            if (y + nodeSize < height)
+            actions.add(Action.DOWN);
+        if (!wall.contains(new Node(x + nodeSize, y)))
+            if (x + nodeSize < width)
                 actions.add(Action.RIGHT);
         if (!wall.contains(new Node(x, y - nodeSize)))
             if (y > 0)
@@ -59,18 +59,23 @@ public class Problem {
     }
 
     public Node getResult(Node node, Action action) {
+        Node result = new Node(node.getX(), node.getY(), node, action);
+
         switch (action) {
             case LEFT:
-                return new Node(node.getX() + nodeSize, node.getY(), node, action);
+                result.setX(result.getX() - nodeSize);
+                break;
             case DOWN:
-                return new Node(node.getX(), node.getY() + nodeSize, node, action);
+                result.setY(result.getY() + nodeSize);
+                break;
             case RIGHT:
-                return new Node(node.getX() - nodeSize, node.getY(), node, action);
+                result.setX(result.getX() + nodeSize);
+                break;
             case UP:
-                return new Node(node.getX(), node.getY() - nodeSize, node, action);
-            default:
-                return null;
+                result.setY(result.getY() - nodeSize);
+                break;
         }
+        return result;
     }
 
     public boolean isGoal(Node node) {
