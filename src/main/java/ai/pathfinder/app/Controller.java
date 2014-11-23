@@ -4,8 +4,9 @@ import ai.pathfinder.core.Solution;
 import ai.pathfinder.framework.IController;
 import ai.pathfinder.framework.IMainView;
 import ai.pathfinder.framework.IExtendedViewModel;
+import ai.pathfinder.search.Algorithm;
+import ai.pathfinder.search.SearchAlgorithm;
 import ai.pathfinder.search.SearchResult;
-import ai.pathfinder.utils.SearchFactory;
 
 public class Controller implements IController {
 
@@ -20,12 +21,14 @@ public class Controller implements IController {
     }
 
     @Override
-    public void search(String algorithm) {
+    public void search(Algorithm algorithm) {
         model.setSolutionPath(null);
-        SearchResult searchResult = SearchFactory.build(algorithm)
-            .search(model.toProblem());
-        if (searchResult instanceof Solution)
-            model.setSolutionPath(((Solution)searchResult).getPath());
+        SearchAlgorithm search = algorithm.getSearchAlgorithm();
+        SearchResult searchResult = search.search(model.toProblem());
+
+        if (searchResult instanceof Solution) {
+            model.setSolutionPath(((Solution) searchResult).getPath());
+        }
     }
 
     @Override

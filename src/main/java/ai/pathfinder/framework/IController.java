@@ -1,5 +1,7 @@
 package ai.pathfinder.framework;
 
+import ai.pathfinder.search.Algorithm;
+
 public interface IController {
     
     /**
@@ -11,7 +13,7 @@ public interface IController {
     /**
      * Search
      */
-    public void search(String algorithm);
+    public void search(Algorithm algorithm);
 
     /**
      * Reset

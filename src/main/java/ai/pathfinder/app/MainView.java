@@ -9,6 +9,7 @@ import ai.pathfinder.framework.IMainView;
 import ai.pathfinder.framework.IViewModel;
 import ai.pathfinder.gui.Maze;
 import ai.pathfinder.gui.ToolBar;
+import ai.pathfinder.search.Algorithm;
 
 public class MainView extends JFrame implements IMainView {
 
@@ -62,7 +63,7 @@ public class MainView extends JFrame implements IMainView {
     }
 
     @Override
-    public void startSearch(String algorithm) {
+    public void startSearch(Algorithm algorithm) {
         controller.search(algorithm);
     }
 

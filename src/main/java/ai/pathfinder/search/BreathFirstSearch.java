@@ -11,6 +11,8 @@ import ai.pathfinder.core.Solution;
 
 public class BreathFirstSearch implements SearchAlgorithm {
 
+    private final String algorithmName = "Breath-First Search";
+
     @Override
     public SearchResult search(Problem problem) {
         Node node = problem.getInitialNode();
@@ -36,6 +38,11 @@ public class BreathFirstSearch implements SearchAlgorithm {
                 }
             }
         }
+    }
+
+    @Override
+    public String getAlgorithmName() {
+        return algorithmName;
     }
 
 }

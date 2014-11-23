@@ -8,22 +8,19 @@ import javax.swing.JComboBox;
 import javax.swing.JToolBar;
 
 import ai.pathfinder.framework.IMainView;
+import ai.pathfinder.search.Algorithm;
 
 public class ToolBar extends JToolBar implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private IMainView mainView;
 
-    private JComboBox<String> algorithmCombo;
+    private JComboBox<Algorithm> algorithmCombo;
     private JButton runButton;
     private JButton resetButton;
 
     public ToolBar() {
-        algorithmCombo = new JComboBox<String>(new String[] {
-                "Breath-First Search",
-                "Greedy Best-First Search",
-                "A*",
-                "Hill-Climbing" });
+        algorithmCombo = new JComboBox<Algorithm>(Algorithm.values());
         add(algorithmCombo);
 
         runButton = new JButton("Run");
@@ -40,7 +37,7 @@ public class ToolBar extends JToolBar implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == runButton) {
-            mainView.startSearch(algorithmCombo.getSelectedItem().toString());
+            mainView.startSearch((Algorithm) algorithmCombo.getSelectedItem());
         } else if (e.getSource() == resetButton) {
             mainView.resetView();
         }

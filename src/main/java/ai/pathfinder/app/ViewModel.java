@@ -17,7 +17,6 @@ public class ViewModel implements IExtendedViewModel {
     private static int GOAL_X = 550;
     private static int GOAL_Y = 250;
 
-//    private final int[] mazeSize = new int[] {22, 32};
     private final int mazeWidth = 800;
     private final int mazeHeight = 550;
     private final int gridSize = 25;
@@ -147,8 +146,8 @@ public class ViewModel implements IExtendedViewModel {
 
     @Override
     public void setSolutionPath(Action[] solutionPath) {
-        this.solutionStartNode = new Node(startNode.getX(), startNode.getY());
         this.solutionPath = solutionPath;
+        this.solutionStartNode = new Node(startNode.getX(), startNode.getY());
         stateChangedListener.notifyChanged();
     }
 

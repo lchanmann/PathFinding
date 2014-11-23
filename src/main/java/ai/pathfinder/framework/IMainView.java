@@ -1,5 +1,7 @@
 package ai.pathfinder.framework;
 
+import ai.pathfinder.search.Algorithm;
+
 public interface IMainView {
 
     /**
@@ -22,7 +24,7 @@ public interface IMainView {
     /**
      * Start search from view
      */
-    public void startSearch(String algorithm);
+    public void startSearch(Algorithm algorithm);
 
     /**
      * Reset view
