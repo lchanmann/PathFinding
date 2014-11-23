@@ -59,10 +59,14 @@ public class Problem {
         int y = node.getY();
 
         switch (action) {
-            case LEFT:  x -= nodeSize; break;
-            case DOWN:  y += nodeSize; break;
-            case RIGHT: x += nodeSize; break;
-            case UP:    y -= nodeSize; break;
+            case LEFT:
+                x -= nodeSize; break;
+            case DOWN:
+                y += nodeSize; break;
+            case RIGHT:
+                x += nodeSize; break;
+            case UP:
+                y -= nodeSize; break;
         }
         return isInBoundary(x, y) && !wall.contains(new Node(x, y));
     }
@@ -82,17 +86,13 @@ public class Problem {
 
         switch (action) {
             case LEFT:
-                result.setX(result.getX() - nodeSize);
-                break;
+                result.setX(result.getX() - nodeSize); break;
             case DOWN:
-                result.setY(result.getY() + nodeSize);
-                break;
+                result.setY(result.getY() + nodeSize); break;
             case RIGHT:
-                result.setX(result.getX() + nodeSize);
-                break;
+                result.setX(result.getX() + nodeSize); break;
             case UP:
-                result.setY(result.getY() - nodeSize);
-                break;
+                result.setY(result.getY() - nodeSize); break;
         }
         return result;
     }
