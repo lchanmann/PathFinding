@@ -17,7 +17,7 @@ public interface SearchAlgorithm {
 
     /**
      * Set frontier changed consumer
-     * @param frontier
+     * @param consumer
      */
     public void onFrontierChanged(Consumer<List<Node>> consumer);
 
@@ -27,4 +27,9 @@ public interface SearchAlgorithm {
      */
     public String getAlgorithmName();
 
+    /**
+     * Set explored set changed consumer
+     * @param consumer
+     */
+    public void onExploredChanged(Consumer<List<Node>> consumer);
 }

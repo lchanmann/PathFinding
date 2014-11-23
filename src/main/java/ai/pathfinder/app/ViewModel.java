@@ -28,6 +28,7 @@ public class ViewModel implements IExtendedViewModel {
     private Node solutionStartNode = null;
     private Action[] solutionPath = null;
     private List<Node> frontier = null;
+    private List<Node> explored = null;
 
     private IStateChangedListener stateChangedListener;
 
@@ -165,4 +166,14 @@ public class ViewModel implements IExtendedViewModel {
         return frontier;
     }
 
+    @Override
+    public void updateExplored(List<Node> explored) {
+        this.explored = explored;
+        stateChangedListener.notifyChanged();
+    }
+
+    @Override
+    public List<Node> getExplored() {
+        return explored;
+    }
 }

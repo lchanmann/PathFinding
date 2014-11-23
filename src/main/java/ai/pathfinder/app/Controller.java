@@ -24,9 +24,8 @@ public class Controller implements IController {
     public void search(Algorithm algorithm) {
         model.setSolutionPath(null);
         SearchAlgorithm search = algorithm.getSearchAlgorithm();
-        search.onFrontierChanged((frontier) -> {
-            model.updateFrontier(frontier);
-        });
+        search.onFrontierChanged((frontier) -> model.updateFrontier(frontier));
+        search.onExploredChanged((explored) -> model.updateExplored(explored));
         SearchResult searchResult = search.search(model.toProblem());
 
         if (searchResult instanceof Solution) {

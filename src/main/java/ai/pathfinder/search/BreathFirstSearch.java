@@ -16,6 +16,7 @@ public class BreathFirstSearch implements SearchAlgorithm {
     private final List<Node> frontier = new ArrayList<Node>();
     private final List<Node> explored = new ArrayList<Node>();
     private Consumer<List<Node>> frontierChangedConsumer;
+    private Consumer<List<Node>> exploredChangedConsumer;
 
     @Override
     public SearchResult search(Problem problem) {
@@ -26,7 +27,7 @@ public class BreathFirstSearch implements SearchAlgorithm {
         while (true) {
             if (frontier.isEmpty()) return new Failure();
             node = removeFrontier(frontier.get(0));
-            explored.add(node);
+            addExplored(node);
             
             /**
              * GoalTest when expanded
@@ -45,6 +46,15 @@ public class BreathFirstSearch implements SearchAlgorithm {
 
     public void onFrontierChanged(Consumer<List<Node>> consumer) {
         this.frontierChangedConsumer = consumer;
+    }
+
+    public void onExploredChanged(Consumer<List<Node>> consumer) {
+        this.exploredChangedConsumer = consumer;
+    }
+
+    private void addExplored(Node node) {
+        explored.add(node);
+        exploredChangedConsumer.accept(explored);
     }
 
     private void addFrontier(Node node) {

@@ -28,4 +28,10 @@ public class HillClimbingSearch implements SearchAlgorithm {
         
     }
 
+    @Override
+    public void onExploredChanged(Consumer<List<Node>> consumer) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

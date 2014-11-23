@@ -83,4 +83,10 @@ public interface IViewModel {
      */
     public List<Node> getFrontier();
 
+    /**
+     * Get explored set
+     * @return
+     */
+    public List<Node> getExplored();
+
 }

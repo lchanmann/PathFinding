@@ -50,6 +50,7 @@ public class Maze extends JComponent implements MouseMotionListener,
 
         drawGridline(g2);
         drawNodes(g2, model.getFrontier(), new Color(160, 220, 160));
+        drawNodes(g2, model.getExplored(), new Color(226, 238, 253));
         drawWall(g2);
         drawNode(g2, model.getStartNode(), Color.GREEN);
         drawNode(g2, model.getGoalNode(), Color.RED);

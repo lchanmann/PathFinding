@@ -52,4 +52,11 @@ public interface IExtendedViewModel extends IViewModel {
      * @param frontier
      */
     public void updateFrontier(List<Node> frontier);
+
+    /**
+     * Update explored set
+     * @param explored
+     * @return
+     */
+    public void updateExplored(List<Node> explored);
 }
