@@ -1,6 +1,7 @@
 package ai.pathfinder.framework;
 
 import java.util.Iterator;
+import java.util.List;
 
 import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Node;
@@ -75,5 +76,11 @@ public interface IViewModel {
      * @return
      */
     public Node getSolutionStartNode();
+
+    /**
+     * Get frontier
+     * @return
+     */
+    public List<Node> getFrontier();
 
 }

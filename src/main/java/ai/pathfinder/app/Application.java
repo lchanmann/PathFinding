@@ -1,5 +1,6 @@
 package ai.pathfinder.app;
 
+
 import ai.pathfinder.framework.IMainView;
 
 public class Application {

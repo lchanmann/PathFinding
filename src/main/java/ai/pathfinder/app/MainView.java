@@ -54,7 +54,9 @@ public class MainView extends JFrame implements IMainView {
     public void setModel(IViewModel model) {
         this.model = model;
         //NOTE: repaint the maze whenever the model changed.
-        model.stateChanged(() -> maze.repaint());
+        model.stateChanged(() -> {
+            maze.repaint();
+        });
     }
 
     @Override

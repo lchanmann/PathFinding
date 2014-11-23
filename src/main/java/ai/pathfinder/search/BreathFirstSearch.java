@@ -2,6 +2,7 @@ package ai.pathfinder.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Failure;
@@ -12,17 +13,19 @@ import ai.pathfinder.core.Solution;
 public class BreathFirstSearch implements SearchAlgorithm {
 
     private final String algorithmName = "Breath-First Search";
+    private final List<Node> frontier = new ArrayList<Node>();
+    private final List<Node> explored = new ArrayList<Node>();
+    private Consumer<List<Node>> frontierChangedConsumer;
 
     @Override
     public SearchResult search(Problem problem) {
         Node node = problem.getInitialNode();
-        List<Node> frontier = new ArrayList<Node>();
-        List<Node> explored = new ArrayList<Node>();
+        reset();
 
-        frontier.add(node);
+        addFrontier(node);
         while (true) {
             if (frontier.isEmpty()) return new Failure();
-            node = frontier.remove(0);
+            node = removeFrontier(frontier.get(0));
             explored.add(node);
             
             /**
@@ -33,11 +36,31 @@ public class BreathFirstSearch implements SearchAlgorithm {
                 Node child = problem.getResult(node, action);
                 if (!explored.contains(child)) {
                     if (!frontier.contains(child)) {
-                        frontier.add(child);
+                        addFrontier(child);
                     }
                 }
             }
         }
+    }
+
+    public void onFrontierChanged(Consumer<List<Node>> consumer) {
+        this.frontierChangedConsumer = consumer;
+    }
+
+    private void addFrontier(Node node) {
+        frontier.add(node);
+        frontierChangedConsumer.accept(frontier);
+    }
+
+    private Node removeFrontier(Node node) {
+        frontier.remove(node);
+        frontierChangedConsumer.accept(frontier);
+        return node;
+    }
+
+    private void reset() {
+        frontier.clear();
+        explored.clear();
     }
 
     @Override

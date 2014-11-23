@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JComponent;
 
@@ -48,7 +49,7 @@ public class Maze extends JComponent implements MouseMotionListener,
         g2.clearRect(0, 0, containerWidth, containerHeight);
 
         drawGridline(g2);
-
+        drawNodes(g2, model.getFrontier(), new Color(160, 220, 160));
         drawWall(g2);
         drawNode(g2, model.getStartNode(), Color.GREEN);
         drawNode(g2, model.getGoalNode(), Color.RED);
@@ -126,6 +127,14 @@ public class Maze extends JComponent implements MouseMotionListener,
 
         g2.setColor(Color.LIGHT_GRAY);
         g2.drawRect(node.getX(), node.getY(), gridSize, gridSize);
+    }
+
+    private void drawNodes(Graphics2D g2, List<Node> nodes, Color color) {
+        if (nodes != null) {
+            for (Node node : nodes) {
+                drawNode(g2, node, color);
+            }
+        }
     }
 
     @Override

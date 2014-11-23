@@ -2,6 +2,7 @@ package ai.pathfinder.app;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import ai.pathfinder.core.Action;
@@ -26,6 +27,7 @@ public class ViewModel implements IExtendedViewModel {
     private Node movingNode;
     private Node solutionStartNode = null;
     private Action[] solutionPath = null;
+    private List<Node> frontier = null;
 
     private IStateChangedListener stateChangedListener;
 
@@ -130,6 +132,7 @@ public class ViewModel implements IExtendedViewModel {
         goalNode.setLocation(new Node(GOAL_X, GOAL_Y));
         solutionStartNode = null;
         solutionPath = null;
+        frontier = null;
 
         stateChangedListener.notifyChanged();
     }
@@ -149,6 +152,17 @@ public class ViewModel implements IExtendedViewModel {
         this.solutionPath = solutionPath;
         this.solutionStartNode = new Node(startNode.getX(), startNode.getY());
         stateChangedListener.notifyChanged();
+    }
+
+    @Override
+    public void updateFrontier(List<Node> frontier) {
+        this.frontier = frontier;
+        stateChangedListener.notifyChanged();
+    }
+
+    @Override
+    public List<Node> getFrontier() {
+        return frontier;
     }
 
 }
