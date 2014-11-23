@@ -134,6 +134,7 @@ public class ViewModel implements IExtendedViewModel {
         solutionStartNode = null;
         solutionPath = null;
         frontier = null;
+        explored = null;
 
         stateChangedListener.notifyChanged();
     }
