@@ -10,18 +10,6 @@ import ai.pathfinder.core.Node;
 public interface IViewModel {
 
     /**
-     * Set state changed listener
-     * @param consumer
-     */
-    public void onStateChanged(Consumer<IViewModel> consumer);
-
-    /**
-     * Set on searching consumer
-     * @param consumer
-     */
-    public void onSearching(Consumer<Boolean> consumer);
-
-    /**
      * Get grid size
      * @return
      */

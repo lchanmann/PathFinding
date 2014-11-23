@@ -1,6 +1,7 @@
 package ai.pathfinder.framework;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Node;
@@ -8,6 +9,17 @@ import ai.pathfinder.core.Problem;
 
 
 public interface IExtendedViewModel extends IViewModel {
+    /**
+     * Set state changed listener
+     * @param consumer
+     */
+    public void onStateChanged(Consumer<IViewModel> consumer);
+
+    /**
+     * Set on searching consumer
+     * @param consumer
+     */
+    public void onSearching(Consumer<Boolean> consumer);
 
     /**
      * Update node position
