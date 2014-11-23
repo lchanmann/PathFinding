@@ -14,7 +14,7 @@ public enum Algorithm {
     
     private SearchAlgorithm searchAlgorithm;
 
-    private Algorithm(Class<?> klass) {
+    private Algorithm(Class<? extends SearchAlgorithm> klass) {
         try {
             this.searchAlgorithm = (SearchAlgorithm) klass.newInstance();
         } catch (InstantiationException e) {
