@@ -37,27 +37,46 @@ public class Problem {
         return sb.toString();
     }
 
+    /**
+     * Get available actions
+     * @param node
+     * @return
+     */
     public List<Action> getActions(Node node) {
         List<Action> actions = new ArrayList<Action>();
-        int x = node.getX();
-        int y = node.getY();
 
-        if (!wall.contains(new Node(x - nodeSize, y)))
-            if (x > 0)
-                actions.add(Action.LEFT);
-        if (!wall.contains(new Node(x, y + nodeSize)))
-            if (y + nodeSize < height)
-            actions.add(Action.DOWN);
-        if (!wall.contains(new Node(x + nodeSize, y)))
-            if (x + nodeSize < width)
-                actions.add(Action.RIGHT);
-        if (!wall.contains(new Node(x, y - nodeSize)))
-            if (y > 0)
-                actions.add(Action.UP);
+        for (Action action : Action.values()) {
+            if (isMovable(node, action)) {
+                actions.add(action);
+            }
+        }
 
         return actions;
     }
 
+    private boolean isMovable(Node node, Action action) {
+        int x = node.getX();
+        int y = node.getY();
+
+        switch (action) {
+            case LEFT:  x -= nodeSize; break;
+            case DOWN:  y += nodeSize; break;
+            case RIGHT: x += nodeSize; break;
+            case UP:    y -= nodeSize; break;
+        }
+        return isInBoundary(x, y) && !wall.contains(new Node(x, y));
+    }
+
+    private boolean isInBoundary(int x, int y) {
+        return x >= 0 && x < width && y >= 0 && y < height;
+    }
+
+    /**
+     * Get result for an action
+     * @param node
+     * @param action
+     * @return
+     */
     public Node getResult(Node node, Action action) {
         Node result = new Node(node.getX(), node.getY(), node, action);
 

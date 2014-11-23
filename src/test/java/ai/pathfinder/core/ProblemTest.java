@@ -1,6 +1,7 @@
 package ai.pathfinder.core;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -56,6 +57,33 @@ public class ProblemTest {
         Assert.assertEquals(1, node.getY());
         Assert.assertEquals(initial, node.getParent());
         Assert.assertEquals(Action.UP, node.getAction());
+    }
+
+    @Test
+    public void shouldGetAllActions() {
+        List<Action> actions = problem.getActions(initial);
+        Assert.assertTrue(actions.contains(Action.LEFT));
+        Assert.assertTrue(actions.contains(Action.DOWN));
+        Assert.assertTrue(actions.contains(Action.RIGHT));
+        Assert.assertTrue(actions.contains(Action.UP));
+    }
+
+    @Test
+    public void shouldGetActionsWhenAtTopLeft() {
+        List<Action> actions = problem.getActions(new Node(0,0));
+        Assert.assertFalse(actions.contains(Action.LEFT));
+        Assert.assertTrue(actions.contains(Action.DOWN));
+        Assert.assertTrue(actions.contains(Action.RIGHT));
+        Assert.assertFalse(actions.contains(Action.UP));
+    }
+
+    @Test
+    public void shouldGetActionsWhenAtBottomRight() {
+        List<Action> actions = problem.getActions(new Node(4,4));
+        Assert.assertTrue(actions.contains(Action.LEFT));
+        Assert.assertFalse(actions.contains(Action.DOWN));
+        Assert.assertFalse(actions.contains(Action.RIGHT));
+        Assert.assertTrue(actions.contains(Action.UP));
     }
 
     @Test
