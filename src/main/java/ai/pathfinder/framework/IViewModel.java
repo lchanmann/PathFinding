@@ -2,7 +2,6 @@ package ai.pathfinder.framework;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
 
 import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Node;

@@ -27,12 +27,12 @@ public class HillClimbingSearch extends SearchAlgorithm {
 
         reset();
         while (true) {
-            Node neightbor = getHighestValueNode(current);
+            Node neighbor = getHighestValueNode(current);
             addExplored(current);
-            if (getValue(neightbor) <= getValue(current)) {
+            if (getValue(neighbor) <= getValue(current)) {
                 break;
             }
-            current = neightbor;
+            current = neighbor;
         }
         if (problem.isGoal(current)) return new Solution(current);
         return new Failure();
