@@ -32,9 +32,9 @@ public class GreedyBestFirstSearch extends SearchAlgorithm {
         while (true) {
             if (frontier.isEmpty()) return new Failure();
             node = removeFrontier(getClosestNode(frontier));
+            if (problem.isGoal(node)) return new Solution(node);
             addExplored(node);
 
-            if (problem.isGoal(node)) return new Solution(node);
             for (Action action : problem.getActions(node)) {
                 Node child = problem.getResult(node, action);
                 if (!explored.contains(child)) {

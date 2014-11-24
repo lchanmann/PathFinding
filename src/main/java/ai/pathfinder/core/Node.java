@@ -6,6 +6,7 @@ public class Node {
     private int y;
     private Node parent;
     private Action action;
+    private int pathCost;
 
     public Node(int x, int y) {
         this(x, y, null, null);
@@ -16,6 +17,7 @@ public class Node {
         this.y = y;
         this.parent = parent;
         this.action = action;
+        this.pathCost = (parent == null) ? 0 : parent.getCost() + 1;
     }
     
     public int getX() {
@@ -73,5 +75,9 @@ public class Node {
 
     public Action getAction() {
         return action;
+    }
+
+    public int getCost() {
+        return pathCost;
     }
 }

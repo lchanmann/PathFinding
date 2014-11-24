@@ -104,4 +104,8 @@ public class Problem {
     public Node getGoalNode() {
         return goalNode;
     }
+
+    public int getNodeSize() {
+        return nodeSize;
+    }
 }

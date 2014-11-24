@@ -21,12 +21,12 @@ public class BreathFirstSearch extends SearchAlgorithm {
         while (true) {
             if (frontier.isEmpty()) return new Failure();
             node = removeFrontier(frontier.get(0));
-            addExplored(node);
-            
             /**
              * GoalTest when expanded
              */
             if (problem.isGoal(node)) return new Solution(node);
+            addExplored(node);
+
             for (Action action : problem.getActions(node)) {
                 Node child = problem.getResult(node, action);
                 if (!explored.contains(child)) {
