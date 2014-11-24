@@ -28,11 +28,11 @@ public class HillClimbingSearch extends SearchAlgorithm {
         reset();
         while (true) {
             Node neightbor = getHighestValueNode(current);
+            addExplored(current);
             if (getValue(neightbor) <= getValue(current)) {
                 break;
             }
             current = neightbor;
-            removeFrontier(current);
         }
         if (problem.isGoal(current)) return new Solution(current);
         return new Failure();
@@ -45,13 +45,14 @@ public class HillClimbingSearch extends SearchAlgorithm {
     private Node getHighestValueNode(Node node) {
         Node bestNode = null;
 
-        addExplored(node);
         for (Action action : problem.getActions(node)) {
             Node childNode = problem.getResult(node, action);
+
             addFrontier(childNode);
             if (bestNode == null || getValue(bestNode) < getValue(childNode)) {
                 bestNode = childNode;
             }
+            removeFrontier(childNode);
         }
         return bestNode;
     }
