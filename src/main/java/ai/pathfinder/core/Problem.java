@@ -100,4 +100,8 @@ public class Problem {
     public boolean isGoal(Node node) {
         return goalNode.equals(node);
     }
+
+    public Node getGoalNode() {
+        return goalNode;
+    }
 }

@@ -47,18 +47,24 @@ public abstract class SearchAlgorithm {
     }
 
     protected void addExplored(Node node) {
-        explored.add(node);
-        exploredChangedConsumer.accept(explored);
+        if (!explored.contains(node)) {
+            explored.add(node);
+            exploredChangedConsumer.accept(explored);
+        }
     }
 
     protected void addFrontier(Node node) {
-        frontier.add(node);
-        frontierChangedConsumer.accept(frontier);
+        if (!frontier.contains(node)) {
+            frontier.add(node);
+            frontierChangedConsumer.accept(frontier);
+        }
     }
 
     protected Node removeFrontier(Node node) {
-        frontier.remove(node);
-        frontierChangedConsumer.accept(frontier);
+        if (frontier.contains(node)) {
+            frontier.remove(node);
+            frontierChangedConsumer.accept(frontier);
+        }
         return node;
     }
 
