@@ -49,7 +49,7 @@ public class HillClimbingSearch extends SearchAlgorithm {
             Node childNode = problem.getResult(node, action);
 
             addFrontier(childNode);
-            if (bestNode == null || getValue(bestNode) < getValue(childNode)) {
+            if (getValue(bestNode) < getValue(childNode)) {
                 bestNode = childNode;
             }
             removeFrontier(childNode);
