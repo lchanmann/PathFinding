@@ -22,7 +22,7 @@ public class BreathFirstSearch extends SearchAlgorithm {
             if (frontier.isEmpty()) return new Failure();
             node = removeFrontier(frontier.get(0));
             /**
-             * GoalTest when expanded
+             * GoalTest when selecting for expansion
              */
             if (problem.isGoal(node)) return new Solution(node);
             addExplored(node);
