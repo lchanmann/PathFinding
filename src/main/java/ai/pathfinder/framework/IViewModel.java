@@ -89,4 +89,22 @@ public interface IViewModel {
      */
     public boolean isSearching();
 
+    /**
+     * Get solution path length
+     * @return
+     */
+    public int getSolutionPathLength();
+
+    /**
+     * Get search execution time in second
+     * @return
+     */
+    public double getExecutionTime();
+
+    /**
+     * Get expanded node count
+     * @return
+     */
+    public int getExpandedNodeCount();
+
 }

@@ -45,7 +45,7 @@ public class Maze extends JComponent implements MouseMotionListener,
         Graphics2D g2 = (Graphics2D) g;
         int containerWidth = getWidth();
         int containerHeight = getHeight();
-        
+
         assignModel();
 
         g2.setBackground(Color.white);
@@ -58,6 +58,24 @@ public class Maze extends JComponent implements MouseMotionListener,
         drawNode(g2, model.getStartNode(), Color.GREEN);
         drawNode(g2, model.getGoalNode(), Color.RED);
         drawPath(g2, Color.ORANGE);
+        drawStat(g2, Color.BLUE);
+    }
+
+    private void drawStat(Graphics2D g2, Color color) {
+        double executionTime = model.getExecutionTime();
+
+        if (!model.isSearching() && executionTime > 0) {
+            int pathLength = model.getSolutionPathLength();
+            int expandedNodes = model.getExpandedNodeCount();
+
+            g2.setColor(new Color(.8f, .8f, .8f, .3f));
+            g2.fillRoundRect(10, 460, 280, 80, 12, 12);
+
+            g2.setColor(color);
+            g2.drawString("Length: " + pathLength, 40, 490);
+            g2.drawString("Execution time: " + executionTime, 40, 507);
+            g2.drawString("Expanded nodes: " + expandedNodes, 40, 524);
+        }
     }
 
     private void drawPath(Graphics2D g2, Color color) {

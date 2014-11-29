@@ -30,12 +30,12 @@ public class Controller implements IController {
         search.onFrontierChanged((frontier) -> model.updateFrontier(frontier));
         search.onExploredChanged((explored) -> model.updateExplored(explored));
 
-        model.isSearching(true);
+        model.searchingMode();
         SearchResult searchResult = search.search(model.toProblem());
         if (searchResult instanceof Solution) {
             model.setSolutionPath(((Solution) searchResult).getPath());
         }
-        model.isSearching(false);
+        model.operatingMode();
     }
 
     @Override

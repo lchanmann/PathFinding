@@ -11,6 +11,7 @@ import ai.pathfinder.core.Node;
 import ai.pathfinder.core.Problem;
 import ai.pathfinder.framework.IExtendedViewModel;
 import ai.pathfinder.framework.IViewModel;
+import ai.pathfinder.utils.TimeUtils;
 
 public class ViewModel implements IExtendedViewModel {
 
@@ -31,6 +32,8 @@ public class ViewModel implements IExtendedViewModel {
     private List<Node> frontier = null;
     private List<Node> explored = null;
     private boolean searching = false;
+    private long startTime;
+    private double executionTime;
 
     private Consumer<IViewModel> stateChangedConsumer;
     private Consumer<Boolean> searchingConsumer;
@@ -144,6 +147,7 @@ public class ViewModel implements IExtendedViewModel {
         frontier = null;
         explored = null;
         searching = false;
+        executionTime = 0;
 
         stateChangedConsumer.accept(this);
     }
@@ -187,8 +191,7 @@ public class ViewModel implements IExtendedViewModel {
         return explored;
     }
 
-    @Override
-    public void isSearching(boolean searching) {
+    private void isSearching(boolean searching) {
         this.searching = searching;
         searchingConsumer.accept(searching);
     }
@@ -197,4 +200,37 @@ public class ViewModel implements IExtendedViewModel {
     public boolean isSearching() {
         return searching;
     }
+
+    @Override
+    public int getSolutionPathLength() {
+        return (solutionPath != null) ? solutionPath.length : 0;
+    }
+
+    @Override
+    public double getExecutionTime() {
+        return executionTime;
+    }
+
+    @Override
+    public int getExpandedNodeCount() {
+        return (explored != null) ? explored.size() : 0;
+    }
+
+    @Override
+    public void searchingMode() {
+        isSearching(true);
+        startTime = System.nanoTime();
+    }
+
+    @Override
+    public void operatingMode() {
+        isSearching(false);
+        computeExecutionTime();
+        stateChangedConsumer.accept(this);
+    }
+
+    private void computeExecutionTime() {
+        executionTime = TimeUtils.nanoSecondToSecond(System.nanoTime() - startTime, 4);
+    }
+
 }
