@@ -43,7 +43,7 @@ public class HillClimbingSearch extends SearchAlgorithm {
     }
 
     private Node getHighestValueNode(Node node) {
-        Node bestNode = null;
+        Node bestNode = node;
 
         for (Action action : problem.getActions(node)) {
             Node childNode = problem.getResult(node, action);
