@@ -7,13 +7,13 @@ mainClassName = "ai.pathfinder.app.Application"
 sourceCompatibility = 1.8
 version = '1.0'
 
-//jar {
-//    manifest {
-//        attributes 'Main-Class': 'ai.pathfinder.app.Application',
-//                   'Implementation-Title': 'Path Finding',
-//                   'Implementation-Version': version
-//    }
-//}
+jar {
+    manifest {
+        attributes 'Main-Class': 'ai.pathfinder.app.Application',
+                   'Implementation-Title': 'Path Finding',
+                   'Implementation-Version': version
+    }
+}
 
 repositories {
     mavenCentral()
