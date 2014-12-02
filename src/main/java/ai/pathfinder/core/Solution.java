@@ -5,6 +5,12 @@ import java.util.List;
 
 import ai.pathfinder.search.SearchResult;
 
+/**
+ * Solution to a search problem is a sequence of actions from 
+ * start node to goal node
+ * @author mann
+ *
+ */
 public class Solution implements SearchResult {
 
     private Node node;
