@@ -5,11 +5,12 @@ Outline:
 1. Main Page
      - Project name
      - Project members
-2. Introductionsa
+2. Introduction
      
      Solve Path Finding problems. Find the shortest path on a grid from a given square A to destination B using:
      - A* search algorithm
      - Uninformed search algorithms
+     
      Make use of Manhattan distance heuristics for the informed search.
      There will be obstacles between A and B, and our implementation would show graphically how the algorithm manage to reach the destination, which in turn would visually demonstrate the actual performance of algorithms in real world problems.
 3. Motivation
