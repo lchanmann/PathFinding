@@ -16,7 +16,7 @@ public class HillClimbingSearch extends SearchAlgorithm {
     }
 
     public HillClimbingSearch(Heuristic h) {
-        this.algorithmName = "Hill-Climbing Search";
+        this.algorithmName = "Hill-Climbing";
         this.h = h;
     }
 

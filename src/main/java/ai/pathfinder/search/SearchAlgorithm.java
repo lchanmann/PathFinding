@@ -70,6 +70,8 @@ public abstract class SearchAlgorithm {
 
     protected void reset() {
         frontier.clear();
+        frontierChangedConsumer.accept(frontier);
         explored.clear();
+        exploredChangedConsumer.accept(explored);
     }
 }

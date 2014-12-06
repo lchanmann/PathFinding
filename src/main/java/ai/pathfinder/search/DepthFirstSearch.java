@@ -1,37 +1,29 @@
 package ai.pathfinder.search;
 
-import java.util.List;
-
 import ai.pathfinder.core.Action;
 import ai.pathfinder.core.Failure;
 import ai.pathfinder.core.Node;
 import ai.pathfinder.core.Problem;
 import ai.pathfinder.core.Solution;
 
-public class GreedyBestFirstSearch extends SearchAlgorithm {
+public class DepthFirstSearch extends SearchAlgorithm {
 
-    private Heuristic h;
-    private Problem problem;
-
-    public GreedyBestFirstSearch() {
-        this(new ManhattanDistanceHeuristic());
-    }
-
-    public GreedyBestFirstSearch(Heuristic h) {
-        this.algorithmName = "Greedy Best-First";
-        this.h = h;
+    public DepthFirstSearch() {
+        this.algorithmName = "Depth-First Search";
     }
 
     @Override
     public SearchResult search(Problem problem) {
-        this.problem = problem;
         Node node = problem.getInitialNode();
         reset();
 
         addFrontier(node);
         while (true) {
             if (frontier.isEmpty()) return new Failure();
-            node = removeFrontier(getClosestNode(frontier));
+            node = removeFrontier(frontier.get(frontier.size() - 1));
+            /**
+             * GoalTest when selecting for expansion
+             */
             if (problem.isGoal(node)) return new Solution(node);
             addExplored(node);
 
@@ -46,18 +38,4 @@ public class GreedyBestFirstSearch extends SearchAlgorithm {
         }
     }
 
-    private int getValue(Node node) {
-        return h.evaluate(node, problem.getGoalNode());
-    }
-
-    private Node getClosestNode(List<Node> nodes) {
-        Node closestNode = null;
-
-        for (Node node : nodes) {
-            if (closestNode == null || getValue(node) < getValue(closestNode)) {
-                closestNode = node;
-            }
-        }
-        return closestNode;
-    }
 }
