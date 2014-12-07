@@ -11,6 +11,7 @@ import ai.pathfinder.search.SearchResult;
 public class Controller implements IController {
 
     private IExtendedViewModel model;
+    private Thread searchThread;
 
     @Override
     public void assignModel(IMainView view) {
@@ -25,17 +26,23 @@ public class Controller implements IController {
 
     @Override
     public void search(Algorithm algorithm) {
-        model.setSolutionPath(null);
-        SearchAlgorithm search = algorithm.getSearchAlgorithm();
-        search.onFrontierChanged((frontier) -> model.updateFrontier(frontier));
-        search.onExploredChanged((explored) -> model.updateExplored(explored));
+        searchThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                model.setSolutionPath(null);
+                SearchAlgorithm search = algorithm.getSearchAlgorithm();
+                search.onFrontierChanged((frontier) -> model.updateFrontier(frontier));
+                search.onExploredChanged((explored) -> model.updateExplored(explored));
 
-        model.searchingMode();
-        SearchResult searchResult = search.search(model.toProblem());
-        if (searchResult instanceof Solution) {
-            model.setSolutionPath(((Solution) searchResult).getPath());
-        }
-        model.operatingMode();
+                model.searchingMode();
+                SearchResult searchResult = search.search(model.toProblem());
+                if (searchResult instanceof Solution) {
+                    model.setSolutionPath(((Solution) searchResult).getPath());
+                }
+                model.operatingMode();
+            }
+        });
+        searchThread.start();
     }
 
     @Override
