@@ -48,11 +48,9 @@ public class HillClimbingSearch extends SearchAlgorithm {
         for (Action action : problem.getActions(node)) {
             Node childNode = problem.getResult(node, action);
 
-            addFrontier(childNode);
             if (getValue(bestNode) < getValue(childNode)) {
                 bestNode = childNode;
             }
-            removeFrontier(childNode);
         }
         return bestNode;
     }

@@ -15,6 +15,8 @@ public class SimulatedAnnealing extends SearchAlgorithm {
     private Problem problem;
     private int t_0 = 1000;
 
+    private Random rand = new Random(System.nanoTime());
+
     public SimulatedAnnealing() {
         this(new ManhattanDistanceHeuristic());
     }
@@ -54,7 +56,7 @@ public class SimulatedAnnealing extends SearchAlgorithm {
     private int getValue(Node node) {
         return h.evaluate(node, problem.getGoalNode()) * -1;
     }
-    Random rand = new Random(System.nanoTime());
+
     private Node getRandomChildNode(Node node) {
         List<Action> actions = problem.getActions(node);
         Action action = actions.get(rand.nextInt(actions.size()));
@@ -64,7 +66,7 @@ public class SimulatedAnnealing extends SearchAlgorithm {
 
     /**
      * Cooling schedule : T(k) = T(0) / (1 + alpha * k )
-     *  The higher the alpha the faster the temperature will decay (less tolerant to worst neighbor)  
+     *      The higher the alpha the faster the temperature will decay (less tolerant to worst neighbor)  
      * @param k
      * @return
      */
