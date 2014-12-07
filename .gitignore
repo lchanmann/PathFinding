@@ -1,5 +1,6 @@
 *.un~
 *.class
+*.DS_Store
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -13,3 +14,8 @@ hs_err_pid*
 /bin/
 .gradle/
 build/
+
+# Tex Files
+*.aux
+*.log
+*.synctex.gz

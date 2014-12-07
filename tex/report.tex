@@ -1,0 +1,265 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University/School Laboratory Report
+% LaTeX Template
+% Version 3.1 (25/3/14)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Linux and Unix Users Group at Virginia Tech Wiki 
+% (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper]{article}
+
+\usepackage{listings}
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{natbib} % Required to change bibliography style to APA
+\usepackage{amsmath} % Required for some math elements 
+
+%\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+%\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
+
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Final project report on \\Path Finding Problem \\~ \\ CS 7750} % Title
+
+\author{Zolbayar Magsar \\Chanmann Lim \\Yihan Xu}
+
+\date{December 15, 2014}
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+
+\lstset{language=Java,title=\lstname,basicstyle=\footnotesize}
+
+\begin{center}
+University of Missouri, Columbia \\
+Electrical \& Computer Engineering \\
+Instructor: Dr. Yi Shang
+\end{center}
+
+\vspace{1 in}
+
+% If you wish to include an abstract, uncomment the lines below
+\begin{abstract}
+In games we often want to find paths from one location to another. We’re not just trying to find the shortest distance; we also want to take into account travel time. Most path finding AI algorithms are designed for arbitrary graphs rather than grid-based games. We’d like to find something that can take advantage of the nature of a game map. There are some things we consider common sense, but that algorithms don’t understand. We know something about distances: in general, as two things get farther apart, it will take longer to move from one to the other. We know something about directions: if your destination is to the east, the best path is more likely to be found by walking to the east than by walking to the west. On grids, we know something about symmetry: most of the time, moving north then east is the same as moving east then north. This additional information can help us make path finding algorithms run faster. 
+To solve the path finding problem, we have implemented four major search algorithms namely A* Search, Greedy Best-First Search, Hill-Climbing Search, and Breadth-First Search. The search procedure takes place on a grid, so that we have an actual depiction of each of the algorithms to visualize them in terms of performance and characteristics.
+\end{abstract}
+
+\vfill
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+
+\emph{Pathfinding}  or  \emph{pathing}  is the plotting, by a computer application, of the shortest route between two points. Two primary problems of pathfinding are to find a path between two nodes in a graph and to find the optimal shortest path. Basic algorithms such as breadth-first and depth-first search address the first problem by exhausting all possibilities; starting from the given node, they iterate over all potential paths until they reach the destination node. The more complicated problem is finding the optimal path. However, it is not necessary to examine all possible paths to find the optimal one. Algorithms such as A* strategically eliminate paths, through heuristics.\\
+
+At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the destination node is reached, generally with the intent of finding the shortest route. Although graph searching methods such as a breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every possible route in advance, the person would generally walk in the direction of the destination and only deviate from the path to avoid an obstruction, and make deviations as minor as possible.\\
+
+We have implemented six different algorithms to find the shortest path on a grid from a given square A to destination B using 3 main strategies of search algorithms:\\
+
+\begin{enumerate}
+\item Uninformed search
+	\begin{itemize}
+		\item Breath-first search
+		\item Depth-first search
+	\end{itemize}
+\item Heuristic search
+	\begin{itemize}
+		\item Greedy best-first search
+		\item A* search
+	\end{itemize}
+\item Local search
+	\begin{itemize}
+		\item Hill-climbing
+		\item Simulated annealing
+	\end{itemize}
+\end{enumerate}
+
+% \subsection{Definitions}
+% \label{definitions}
+% \begin{description}
+% \item[Stoichiometry]
+% The relationship between the relative quantities of substances taking part in a reaction or forming a compound, typically a ratio of whole integers.
+% \item[Atomic mass]
+% The mass of an atom of a chemical element expressed in atomic mass units. It is approximately equivalent to the number of protons and neutrons in the atom (the mass number) or to the average number allowing for the relative abundances of different isotopes. 
+% \end{description} 
+ 
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Algorithms and Implementations}
+
+There will be obstacles between A and B, and our implementation would show graphically how the algorithm manage to reach the destination, which in turn would visually demonstrate the actual performance of algorithms in real world problems. We made use of Manhattan distance heuristics for the informed search algorithms.
+
+%----------------------------------------------------------------------------------------
+%	Breadth-first
+%----------------------------------------------------------------------------------------
+
+\subsection{Breadth-first search algorithm:}
+
+BFS is a  strategy for searching in a graph  when search is limited to essentially two operations: (a) visit and inspect a node of a graph; (b) gain access to visit the nodes that neighbor the currently visited node. The BFS begins at a root node and inspects all the neighboring nodes. Then for each of those neighbor nodes in turn, it inspects their neighbor nodes which were unvisited, and so on.
+
+\begin{lstlisting}
+while (true) {
+    if (frontier.isEmpty()) return new Failure();
+    node = removeFrontier(frontier.get(0));
+
+    if (problem.isGoal(node)) return new Solution(node);
+        addExplored(node);
+
+        for (Action action : problem.getActions(node)) {
+            Node child = problem.getResult(node, action);
+            if (!explored.contains(child)) {
+                if (!frontier.contains(child)) {
+                    addFrontier(child);
+                }
+            }
+    }
+}
+\end{lstlisting}
+
+\noindent \\
+The algorithm uses a queue data structure to store intermediate results as it traverses the graph, as follows:\\
+
+\begin{enumerate}
+\item Enqueue the root node
+\item Dequeue a node and examine it
+	\begin{itemize}
+		\item If the element sought is found in this node, quit the search and return a result.
+		\item Otherwise enqueue any successors (the direct child nodes) that have not yet been discovered.
+	\end{itemize}
+\item If the queue is empty, every node on the graph has been examined – quit the search and return "not found". \\
+\item If the queue is not empty, repeat from Step 2.
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+%	Depth-first
+%----------------------------------------------------------------------------------------
+
+\subsection{Depth-first search algorithm:}
+
+DFS starts at the root (selecting some arbitrary node as the root in the case of a graph) and explores as far as possible along each branch before backtracking.
+
+\begin{lstlisting}
+while (true) {
+    if (frontier.isEmpty()) return new Failure();
+    node = removeFrontier(frontier.get(frontier.size() - 1));
+    
+    if (problem.isGoal(node)) return new Solution(node);
+    addExplored(node);
+
+    for (Action action : problem.getActions(node)) {
+        Node child = problem.getResult(node, action);
+        if (!explored.contains(child)) {
+            if (!frontier.contains(child)) {
+                addFrontier(child);
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+\noindent \\
+DFS always expands the deepest node in the current frontier of the search tree. As seen above, the search proceeds immediately to the deepest level of the search tree, where the nodes have no successors.
+
+%----------------------------------------------------------------------------------------
+%	Greedy best-first
+%----------------------------------------------------------------------------------------
+
+\subsection{Best-first search algorithm:}
+
+It is a search algorithm which explores a graph by expanding the most promising node chosen according to a specified rule.\\
+
+\noindent We used "best-first search" to refer specifically to a search with a  heuristic function that attempts to predict how close the end of a path is to a solution, so that paths which are judged to be closer to a solution are extended first. This specific type of search is called \textbf{greedy best-first search}.
+
+\begin{lstlisting}
+while (true) {
+    if (frontier.isEmpty()) return new Failure();
+    node = removeFrontier(getClosestNode(frontier));
+    if (problem.isGoal(node)) return new Solution(node);
+    addExplored(node);
+
+    for (Action action : problem.getActions(node)) {
+        Node child = problem.getResult(node, action);
+        if (!explored.contains(child)) {
+            if (!frontier.contains(child)) {
+                addFrontier(child);
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+%----------------------------------------------------------------------------------------
+%	A*
+%----------------------------------------------------------------------------------------
+
+\subsection{A* search algorithm:}
+
+%----------------------------------------------------------------------------------------
+%	Hill-climbing
+%----------------------------------------------------------------------------------------
+
+\subsection{Hill-climbing algorithm:}
+
+%----------------------------------------------------------------------------------------
+%	Simulated annealing
+%----------------------------------------------------------------------------------------
+
+\subsection{Simulated annealing algorithm:}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Results and Analysis}
+
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4
+%----------------------------------------------------------------------------------------
+
+\section{Conclusion}
+
+So the obvious question is "which algorithm should we use for finding paths on a game map?"
+
+\begin{itemize}
+\item If you want to find paths from or to all locations, use Breadth First Search.
+\item If you want to find paths to one location, use Greedy Best First Search or A*. We would prefer A* in most cases since it is optimal.
+\end{itemize}
+
+\noindent What about optimal paths? Breadth First Search is guaranteed to find the shortest path given the input graph. Greedy Best First Search is not. A* is guaranteed to find the shortest path if the heuristic is never larger than the true distance. As the heuristic becomes larger, A* turns into Greedy Best First Search.\\
+
+\noindent What about performance? The best thing to do is to eliminate unnecessary locations in your graph. Reducing the size of the graph helps all the graph search algorithms. It also can be noticed that simpler queues run faster. Greedy Best First Search typically runs faster but doesn’t produce optimal paths. A* is a good choice for most pathfinding needs.
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\bibliographystyle{apalike}
+
+\bibliography{sample}
+
+%----------------------------------------------------------------------------------------
+
+
+\end{document}
