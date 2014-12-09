@@ -21,6 +21,7 @@
 
 \documentclass[a4paper]{article}
 
+\usepackage[margin=1 in]{geometry}
 \usepackage{listings}
 \usepackage{graphicx} % Required for the inclusion of images
 \usepackage{natbib} % Required to change bibliography style to APA
@@ -48,9 +49,10 @@
 \lstset{language=Java,title=\lstname,basicstyle=\footnotesize}
 
 \begin{center}
-University of Missouri, Columbia \\
 Electrical \& Computer Engineering \\
-Instructor: Dr. Yi Shang
+University of Missouri, Columbia \\
+\vspace{.5 in}
+Instructor: Dr. Yi Shang \\
 \end{center}
 
 \vspace{1 in}
@@ -61,7 +63,7 @@ In games we often want to find paths from one location to another. We’re not j
 To solve the path finding problem, we have implemented four major search algorithms namely A* Search, Greedy Best-First Search, Hill-Climbing Search, and Breadth-First Search. The search procedure takes place on a grid, so that we have an actual depiction of each of the algorithms to visualize them in terms of performance and characteristics.
 \end{abstract}
 
-\vfill
+% \vfill
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -69,7 +71,7 @@ To solve the path finding problem, we have implemented four major search algorit
 
 \section{Introduction}
 
-\emph{Pathfinding}  or  \emph{pathing}  is the plotting, by a computer application, of the shortest route between two points. Two primary problems of pathfinding are to find a path between two nodes in a graph and to find the optimal shortest path. Basic algorithms such as breadth-first and depth-first search address the first problem by exhausting all possibilities; starting from the given node, they iterate over all potential paths until they reach the destination node. The more complicated problem is finding the optimal path. However, it is not necessary to examine all possible paths to find the optimal one. Algorithms such as A* strategically eliminate paths, through heuristics.\\
+\emph{Pathfinding}  or  \emph{pathing}  is the plotting, by a computer application, of the shortest route between two points. Two primary problems of pathfinding are to find a path between two nodes in a graph and to find the optimal shortest path. Basic algorithms such as breadth-first and depth-first search address the first problem by exhausting all possibilities; starting from the given node, they iterate over all potential paths until they reach the destination node. The more complicated problem is finding the optimal path. However, it is not necessary to examine all possible paths to find the optimal one. Algorithms such as A* strategically eliminate paths, through heuristics.\\
 
 At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the destination node is reached, generally with the intent of finding the shortest route. Although graph searching methods such as a breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every possible route in advance, the person would generally walk in the direction of the destination and only deviate from the path to avoid an obstruction, and make deviations as minor as possible.\\
 
@@ -157,7 +159,7 @@ The algorithm uses a queue data structure to store intermediate results as it 
 
 \subsection{Depth-first search algorithm:}
 
-DFS starts at the root (selecting some arbitrary node as the root in the case of a graph) and explores as far as possible along each branch before backtracking.
+DFS starts at the root (selecting some arbitrary node as the root in the case of a graph) and explores as far as possible along each branch before backtracking.
 
 \begin{lstlisting}
 while (true) {
@@ -250,6 +252,10 @@ So the obvious question is "which algorithm should we use for finding paths on a
 \noindent What about optimal paths? Breadth First Search is guaranteed to find the shortest path given the input graph. Greedy Best First Search is not. A* is guaranteed to find the shortest path if the heuristic is never larger than the true distance. As the heuristic becomes larger, A* turns into Greedy Best First Search.\\
 
 \noindent What about performance? The best thing to do is to eliminate unnecessary locations in your graph. Reducing the size of the graph helps all the graph search algorithms. It also can be noticed that simpler queues run faster. Greedy Best First Search typically runs faster but doesn’t produce optimal paths. A* is a good choice for most pathfinding needs.
+
+\newpage
+
+$T_k = \frac{T_0}{1 + \alpha \cdot k}, \quad \alpha > 0$
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
