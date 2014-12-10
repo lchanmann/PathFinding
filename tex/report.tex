@@ -71,11 +71,11 @@ To solve the path finding problem, we have implemented four major search algorit
 
 \section{Introduction}
 
-\emph{Pathfinding}  or  \emph{pathing}  is the plotting, by a computer application, of the shortest route between two points. Two primary problems of pathfinding are to find a path between two nodes in a graph and to find the optimal shortest path. Basic algorithms such as breadth-first and depth-first search address the first problem by exhausting all possibilities; starting from the given node, they iterate over all potential paths until they reach the destination node. The more complicated problem is finding the optimal path. However, it is not necessary to examine all possible paths to find the optimal one. Algorithms such as A* strategically eliminate paths, through heuristics.\\
+\emph{Pathfinding} or \emph{pathing}is the plotting, by a computer application, of the shortest route between two points. Two primary problems of pathfinding are to find a path between two nodes in a graph and to find the optimal shortest path. Basic algorithms such as breadth-first and depth-first search address the first problem by exhausting all possibilities; starting from the given node, they iterate over all potential paths until they reach the destination node. The more complicated problem is finding the optimal path. However, it is not necessary to examine all possible paths to find the optimal one. Algorithms such as A* strategically eliminate paths, through heuristics.\\
 
-At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the destination node is reached, generally with the intent of finding the shortest route. Although graph searching methods such as a breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every possible route in advance, the person would generally walk in the direction of the destination and only deviate from the path to avoid an obstruction, and make deviations as minor as possible.\\
+\noindent At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the destination node is reached, generally with the intent of finding the shortest route. Although graph searching methods such as a breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every possible route in advance, the person would generally walk in the direction of the destination and only deviate from the path to avoid an obstruction, and make deviations as minor as possible.\\
 
-We have implemented six different algorithms to find the shortest path on a grid from a given square A to destination B using 3 main strategies of search algorithms:\\
+\noindent We have implemented six different algorithms to find the shortest path on a grid from a given square A to destination B using 3 main strategies of search algorithms:\\
 
 \begin{enumerate}
 \item Uninformed search
@@ -211,11 +211,47 @@ while (true) {
 }
 \end{lstlisting}
 
+\noindent \\
+By using a greedy algorithm, we expand the first successor of the parent. After a successor is generated: \\
+\begin{enumerate}
+	\item If the successor's heuristic is better than its parent, the successor is set at the front of the queue (with the parent reinserted directly behind it), and the loop restarts.
+	\item Else, the successor is inserted into the queue (in a location determined by its heuristic value). The procedure will evaluate the remaining successors (if any) of the parent.
+\end{enumerate}
+
 %----------------------------------------------------------------------------------------
 %	A*
 %----------------------------------------------------------------------------------------
 
 \subsection{A* search algorithm:}
+
+A* assigns a weight to each open node equal to the weight of the edge to that node plus the approximate distance between that node and the finish. This approximate distance is found by the heuristic, and represents a minimum possible distance between that node and the end. This allows it to eliminate longer paths once an initial path is found. If there is a path of length x between the start and finish, and the minimum distance between a node and the finish is greater than x, that node need not be examined.
+
+\begin{lstlisting}
+while (true) {
+    if (frontier.isEmpty()) return new Failure();
+    node = removeFrontier(getLowestCostNode());
+    if (problem.isGoal(node)) return new Solution(node);
+    addExplored(node);
+
+    for (Action action : problem.getActions(node)) {
+        Node child = problem.getResult(node, action);
+        if (!explored.contains(child)) {
+            if (!frontier.contains(child)) {
+                addFrontier(child);
+            } else {
+                Node existing = frontier.get(frontier.indexOf(child));
+                if (getCost(existing) > getCost(child)){
+                    removeFrontier(existing);
+                    addFrontier(child);
+                }
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+\noindent \\
+When the value of the heuristic is exactly the true distance, A* examines the fewest nodes. As the value of the heuristic increases, A* examines fewer nodes but no longer guarantees an optimal path. In many applications (such as video games) this is acceptable and even desirable, in order to keep the algorithm running quickly.
 
 %----------------------------------------------------------------------------------------
 %	Hill-climbing
@@ -223,17 +259,123 @@ while (true) {
 
 \subsection{Hill-climbing algorithm:}
 
+A local search algorithm starts from a candidate solution and then iteratively moves to a neighbor solution. When no improving configurations are present in the neighborhood, local search is stuck at a locally optimal point.
+
+\begin{lstlisting}
+while (true) {
+    Node neighbor = getHighestValueNode(current);
+    addExplored(current);
+    if (getValue(neighbor) <= getValue(current)) {
+        break;
+    }
+    current = neighbor;
+}
+if (problem.isGoal(current)) return new Solution(current);
+return new Failure();
+\end{lstlisting}
+
+\noindent \\
+It is an iterative algorithm that starts with an arbitrary solution to a problem, then attempts to find a better solution by incrementally changing a single element of the solution. If the change produces a better solution, an incremental change is made to the new solution, repeating until no further improvements can be found. Hill climbing is good for finding a local optimum (a solution that cannot be improved by considering a neighboring configuration) but it is not necessarily guaranteed to find the best possible solution (the global optimum) out of all possible solutions (the search space).
+
 %----------------------------------------------------------------------------------------
 %	Simulated annealing
 %----------------------------------------------------------------------------------------
 
 \subsection{Simulated annealing algorithm:}
 
+At each step, the SA heuristic considers some neighboring state of the current state, and probabilistically decides between moving the system to that state or staying in the current state. These probabilities ultimately lead the system to move to states of lower energy. Typically this step is repeated until the system reaches a state that is good enough for the application, or until a given computation budget has been exhausted.
+
+\begin{lstlisting}
+for (int k=0; ;k++) {
+    temperature = coolingSchedule(k);
+    if (temperature == 0) return new Failure();
+    if (problem.isGoal(current)) return new Solution(current);
+
+    Node nextNode = getRandomChildNode(current);
+    addExplored(current);
+
+    int deltaE = getValue(nextNode) - getValue(current);
+    if (deltaE > 0) {
+        current = nextNode;
+    } else {
+        double probability = Math.pow(Math.E, deltaE / temperature);
+        if (probability > Math.random()) {
+            current = nextNode;
+        }
+    }
+}
+\end{lstlisting}
+
+\noindent \\
+The innermost loop of the simulated-annealing algorithm is quite similar to hill climbing. Instead of picking the best move, however, it picks a random move. If the move improves the situation, it is always accepted. Otherwise, the algorithm accepts the move with some probability less than 1.
+
+\paragraph{Use of grids:} Grids are commonly used in games for representing playing areas such as maps (in games like Civilization and Warcraft), playing surfaces (in games like pool, table tennis, and poker), playing fields (in games like baseball and football), boards (in games like Chess, Monopoly, and Connect Four), and abstract spaces (in games like Tetris). \\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[scale=.6]{images/square-grid.png}
+  \caption{Square grida}
+\end{figure}
+
+\noindent Grids are built from a repetition of simple shapes. The most common grid is a square grid. It’s simple, easy to work with, and maps nicely onto a computer screen. Square grids are the most common grids used in games, primarily because they are easy to use. Locations can use the familiar cartesian coordinates (x, y) and the axes are orthogonal. The square coordinate system is the same even if your map squares are angled on screen in an isometric or axonometric projection.
+
 %----------------------------------------------------------------------------------------
 %	SECTION 3
 %----------------------------------------------------------------------------------------
 
 \section{Results and Analysis}
+
+The results we have obtained, after running these algorithms individually both with and without a block between the points A and B, are pretty astonishing and is a pleasure for anyone to watch how these algorithms get the job done through such distinctive methodologies.\\
+
+\noindent Let us compare the six algorithms in an exactly same problem case with a single square block in between the two points.
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[scale=.9]{images/bfs1.png}
+  \caption{BFS with a block between two points}
+\end{figure}
+
+\noindent As we can see here, in breadth-first search algorithm, all the nodes are expanded at a given depth in the search tree before any nodes at the next level are expanded. Therefore the shape of the search space covered is guaranteed to be a square on a grid and the expanded node is the largest in case of BFS. The CPU execution time is also the longest since the algorithm is doing an exhaustive search to reach the destination node. We can see how blind (and wasteful) an uninformed search actually is. Breadth-first search is guaranteed to find the optimal path, so we can see that the path-cost is 14 in above case. \\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[scale=.9]{images/dfs1.png}
+  \caption{DFS with a block between two points}
+\end{figure}
+
+\noindent As we can see here, DFS expands the deepest node in the current frontier. Therefore the path cost is quite high in this example and the CPU execution time as well. It also expanded much more nodes than BFS, therefore proving that DFS is non-optimal. \\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[scale=.9]{images/A1.png}
+  \caption{A* with a block between two points}
+\end{figure}
+
+\noindent We can see from the above picture how smart the heuristic search compared to the uninformed search is. A* actually has a sense of direction to look for the destination and is very effective in finding it. The length of the path is same as BFS, therefore guarantees an optimal path, because of an admissible heuristic function. We can see that the expanded node is greatly reduced and the CPU execution time accordingly. \\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[scale=.9]{images/greedy1.png}
+  \caption{Greedy best-first search with a block between two points}
+\end{figure}
+
+\noindent The greedy best-first search is the most effective in this case with a minimum expanded nodes of 14, thereby having the least CPU execution time. This proves that a greedy algorithm can be very effective in the right circumstance. Instead of selecting the vertex closest to the starting point, it selects the vertex closest to the goal. Greedy Best-First-Search is not guaranteed to find a shortest path. However, it runs much quicker than A* algorithm. \\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[scale=.9]{images/hillclimb1.png}
+  \caption{Hill-climbing search with a block between two points}
+\end{figure}
+
+\noindent As we can see (in Figure 6), a local search algorithm operate using a single current node (rather than multiple paths) and generally move only to neighbors of that node. Also the paths followed by the search are not retained. So we can testify from above that the hill-climbing search is simply a loop that continually moves in the direction of increasing value – that is, uphill. And since there’s an obstacle, it failed to find the path to the destination, because it simply did not keep track of alternative routes. Hence we can see the clear limitations of the hill-climbing search here. \\
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[scale=.9]{images/sa1.png}
+  \caption{Simulated annealing with a block between two points}
+\end{figure}
+
+\noindent Simulated annealing is the most ineffective choice as per this example as the path length is 406 steps as shown. However, the CPU execution time and the expanded node are much less than uninformed search algorithms because of its randomness.
 
 
 %----------------------------------------------------------------------------------------
@@ -255,15 +397,15 @@ So the obvious question is "which algorithm should we use for finding paths on a
 
 \newpage
 
-$T_k = \frac{T_0}{1 + \alpha \cdot k}, \quad \alpha > 0$
+%$T_k = \frac{T_0}{1 + \alpha \cdot k}, \quad \alpha > 0$
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
 
-\bibliographystyle{apalike}
+%\bibliographystyle{apalike}
 
-\bibliography{sample}
+%\bibliography{sample}
 
 %----------------------------------------------------------------------------------------
 
