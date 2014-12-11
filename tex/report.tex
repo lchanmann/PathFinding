@@ -162,9 +162,9 @@ DFS always expands the deepest node in the current frontier of the search tree. 
 
 \subsection{Best-first search algorithm:}
 
-It is a search algorithm which explores a graph by expanding the most promising node chosen according to a specified rule.\\
+It is a search algorithm which explores a graph by expanding the most promising node chosen solely according to additional knowledge about the problem given by its designer in term heuristic function.\\
 
-\noindent We used "best-first search" to refer specifically to a search with a  heuristic function that attempts to predict how close the end of a path is to a solution, so that paths which are judged to be closer to a solution are extended first. This specific type of search is called \textbf{greedy best-first search}. \\
+\noindent We used "best-first search" to refer specifically to a search with a heuristic function that attempts to predict how close the end of a path is to a solution, so that paths which are judged to be closer to a solution are extended first. This specific type of search is called \textbf{greedy best-first search}. \\
 
 \begin{figure}[h!]
   \centering
@@ -173,11 +173,9 @@ It is a search algorithm which explores a graph by expanding the most promis
 \end{figure}
 
 \noindent \\
-By using a greedy algorithm, we expand the first successor of the parent. After a successor is generated: \\
-\begin{enumerate}
-	\item If the successor's heuristic is better than its parent, the successor is set at the front of the queue (with the parent reinserted directly behind it), and the loop restarts.
-	\item Else, the successor is inserted into the queue (in a location determined by its heuristic value). The procedure will evaluate the remaining successors (if any) of the parent.
-\end{enumerate}
+By using a greedy algorithm, we expand the root and add its successors to the queue then pick the successor that is the closest to the goal node depend entirely on the prediction of the heuristic function.
+
+\paragraph{Manhattan distance heuristic: } Think of the grid map, the root node, and goal node in our PathFinding program as a cartesian plane with two separate points $x$ and $y$. What is your best estimate about the distance from $x$ to $y$? One might give the straight-line distance (euclidean distance) estimate however the sum of the difference between $x$ and $y$ coordinates (manhattan distance) would yield a more admissible prediction and in fact it is the perfect estimate as we define our grid to allow only horizontal and vertical move but not diagonal or straight a cross every square.  
 
 %----------------------------------------------------------------------------------------
 %	A*
