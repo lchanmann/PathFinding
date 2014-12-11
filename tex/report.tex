@@ -70,29 +70,39 @@ In many occasions, we face the problem of finding a path from one place to anoth
 
 \section{Introduction}
 
-\emph{Pathfinding} or \emph{pathing} is the plotting, by a computer application, of the shortest route between two points. Two primary problems of pathfinding are to find a path between two nodes in a graph and to find the optimal shortest path. Basic algorithms such as Breadth-first and Depth-first search address the first problem by exhausting all possibilities; starting from the given node, they iterate over all potential paths until they reach the destination node. The more complicated problem is finding the optimal path. However, it is not necessary to examine all possible paths to find the optimal one. Algorithms such as A* strategically eliminate paths, through heuristics while local search such as Hill-climbing further reduce search space to a constant number of choices to make search rocket fast.\\
+Wikipedia describes the pathfinding problem as "\emph{Pathfinding} or \emph{pathing} is the plotting, by a computer application, of the shortest route between two points". There are two main problems of pathfinding, which are:
 
-\noindent At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the destination node is reached, generally with the intent of finding the shortest route. Although graph searching methods such as a Breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every possible route in advance, the person would generally walk in the direction of the destination and only deviate from the path to avoid an obstruction, and make deviations as minor as possible.\\
+\begin{itemize}
+	\item Finding a path between two nodes in a graph 
+	\item Finding the optimal path
+\end{itemize}
 
-\noindent We have implemented six different algorithms to traverse and find the pathway on a grid from a given square A to destination B using 3 main strategies of search algorithms:\\
+\noindent Blind search algorithms such as breadth-first and depth-first search solve the first type of problem by exhaustively checking all possibilities, starting with the given node. They iterate through all possible paths until they find the destination node. Because of their “blindness”, such algorithms can be either ineffective or too expensive. \\
 
-\begin{enumerate}
-\item Uninformed search
+\noindent Then we have an even more complicated problem – finding the optimal path. In this case however, it is not required to check all possible paths in order to find the optimal one. By using heuristics (additional knowledge of the problem space), we can strategically eliminate unnecessary paths. We will find out that this informed approach is more powerful and "gets the job done" efficiently most of the time. \\
+
+\noindent We also have a type of search algorithms that try to explore the search space unsystematically. This is relative to the fact that, in some problems, the path to the goal is irrelevant – what matters is the final state after the search effort. Local search algorithms are such algorithms in which the paths followed are not retained. \\
+ 
+\noindent We have implemented six different algorithms reflecting the above three different approaches: \\
+\begin{itemize}
+	\item Uninformed search
 	\begin{itemize}
-		\item Breath-first search
+		\item Breadth-first search
 		\item Depth-first search
 	\end{itemize}
-\item Heuristic search
+
+	\item Heuristic search
 	\begin{itemize}
 		\item Greedy best-first search
 		\item A* search
 	\end{itemize}
-\item Local search
+
+	\item Local search
 	\begin{itemize}
-		\item Hill-climbing
+		\item Hill-climbing search
 		\item Simulated annealing
 	\end{itemize}
-\end{enumerate}
+\end{itemize}
 
 % \subsection{Definitions}
 % \label{definitions}
@@ -109,7 +119,7 @@ In many occasions, we face the problem of finding a path from one place to anoth
 
 \section{Algorithms and Implementations}
 
-There will be obstacles between A and B, and our implementation would show graphically how the algorithm manage to reach the destination, which in turn would visually demonstrate the actual performance of algorithms in real world problems. We made use of Manhattan distance as the heuristics for the informed search algorithms and as the scoring function for local searches.
+There will be obstacles between the source and the destination squares, and our implementation shows graphically how each algorithm manage to reach the destination in its own term. This very activity will in turn allow us to visually enjoy the actual performance of each of those algorithms in real world problems. We made use of Manhattan distance heuristics for the informed search algorithms and as the scoring/objective function for local searches.
 
 %----------------------------------------------------------------------------------------
 %	Breadth-first
