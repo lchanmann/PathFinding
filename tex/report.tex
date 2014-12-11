@@ -59,8 +59,7 @@ Instructor: Dr. Yi Shang \\
 
 % If you wish to include an abstract, uncomment the lines below
 \begin{abstract}
-In games we often want to find paths from one location to another. We’re not just trying to find the shortest distance; we also want to take into account travel time. Most path finding AI algorithms are designed for arbitrary graphs rather than grid-based games. We’d like to find something that can take advantage of the nature of a game map. There are some things we consider common sense, but that algorithms don’t understand. We know something about distances: in general, as two things get farther apart, it will take longer to move from one to the other. We know something about directions: if your destination is to the east, the best path is more likely to be found by walking to the east than by walking to the west. On grids, we know something about symmetry: most of the time, moving north then east is the same as moving east then north. This additional information can help us make path finding algorithms run faster. 
-To solve the path finding problem, we have implemented four major search algorithms namely A* Search, Greedy Best-First Search, Hill-Climbing Search, and Breadth-First Search. The search procedure takes place on a grid, so that we have an actual depiction of each of the algorithms to visualize them in terms of performance and characteristics.
+In many occasions, we face the problem of finding a path from one place to another place. In such situations, were we not just trying to find the shortest distance; but the traveling time also an important factor to be taken into consideration. In artificial intelligence, search algorithms are mainly used for such problems. On the other hand, when it comes to differentiating between such algorithms, it is often useful to implement them on a path finding problem and compare their features. We have attempted to create a game map which can be used in a simple path finding problem. On the map, we have two points, source and destination. We are also free to create an arbitrary shape of walls between them to create a problem. We then have myriad of ways to examine the precise difference between search algorithms and compare them in terms of execution speed, accuracy, and overall performance. To solve the path finding problem, we have implemented six major search algorithms representing 3 main types of search algorithm families, namely Breadth-First Search, Depth-First Search, Greedy Best-First Search, A* Search, Hill-Climbing, and Simulated Annealing. The map is created using a grid structure, so as to have a precise depiction of the 'search movements' of each of the algorithms visually in terms of characteristics and performance.
 \end{abstract}
 
 % \vfill
@@ -71,11 +70,11 @@ To solve the path finding problem, we have implemented four major search algorit
 
 \section{Introduction}
 
-\emph{Pathfinding} or \emph{pathing}is the plotting, by a computer application, of the shortest route between two points. Two primary problems of pathfinding are to find a path between two nodes in a graph and to find the optimal shortest path. Basic algorithms such as breadth-first and depth-first search address the first problem by exhausting all possibilities; starting from the given node, they iterate over all potential paths until they reach the destination node. The more complicated problem is finding the optimal path. However, it is not necessary to examine all possible paths to find the optimal one. Algorithms such as A* strategically eliminate paths, through heuristics.\\
+\emph{Pathfinding} or \emph{pathing} is the plotting, by a computer application, of the shortest route between two points. Two primary problems of pathfinding are to find a path between two nodes in a graph and to find the optimal shortest path. Basic algorithms such as Breadth-first and Depth-first search address the first problem by exhausting all possibilities; starting from the given node, they iterate over all potential paths until they reach the destination node. The more complicated problem is finding the optimal path. However, it is not necessary to examine all possible paths to find the optimal one. Algorithms such as A* strategically eliminate paths, through heuristics while local search such as Hill-climbing further reduce search space to a constant number of choices to make search rocket fast.\\
 
-\noindent At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the destination node is reached, generally with the intent of finding the shortest route. Although graph searching methods such as a breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every possible route in advance, the person would generally walk in the direction of the destination and only deviate from the path to avoid an obstruction, and make deviations as minor as possible.\\
+\noindent At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the destination node is reached, generally with the intent of finding the shortest route. Although graph searching methods such as a Breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every possible route in advance, the person would generally walk in the direction of the destination and only deviate from the path to avoid an obstruction, and make deviations as minor as possible.\\
 
-\noindent We have implemented six different algorithms to find the shortest path on a grid from a given square A to destination B using 3 main strategies of search algorithms:\\
+\noindent We have implemented six different algorithms to traverse and find the pathway on a grid from a given square A to destination B using 3 main strategies of search algorithms:\\
 
 \begin{enumerate}
 \item Uninformed search
@@ -110,7 +109,7 @@ To solve the path finding problem, we have implemented four major search algorit
 
 \section{Algorithms and Implementations}
 
-There will be obstacles between A and B, and our implementation would show graphically how the algorithm manage to reach the destination, which in turn would visually demonstrate the actual performance of algorithms in real world problems. We made use of Manhattan distance heuristics for the informed search algorithms.
+There will be obstacles between A and B, and our implementation would show graphically how the algorithm manage to reach the destination, which in turn would visually demonstrate the actual performance of algorithms in real world problems. We made use of Manhattan distance as the heuristics for the informed search algorithms and as the scoring function for local searches.
 
 %----------------------------------------------------------------------------------------
 %	Breadth-first
@@ -140,11 +139,11 @@ while (true) {
 \end{lstlisting}
 
 \noindent \\
-The algorithm uses a queue data structure to store intermediate results as it traverses the graph, as follows:\\
+The algorithm uses a queue data structure to store intermediate results as it traverses the graph, as follows:\\
 
 \begin{enumerate}
 \item Enqueue the root node
-\item Dequeue a node and examine it
+\item Dequeue a node in first-in-first-out manner and examine it
 	\begin{itemize}
 		\item If the element sought is found in this node, quit the search and return a result.
 		\item Otherwise enqueue any successors (the direct child nodes) that have not yet been discovered.
