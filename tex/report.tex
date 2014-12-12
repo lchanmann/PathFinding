@@ -51,7 +51,7 @@
 \lstset{language=Java,title=\lstname,basicstyle=\footnotesize}
 
 \begin{center}
-Electrical \& Computer Engineering \\
+Electrical and Computer Engineering Department \\
 University of Missouri, Columbia \\
 \vspace{.5 in}
 Instructor: Dr. Yi Shang \\
@@ -61,7 +61,7 @@ Instructor: Dr. Yi Shang \\
 
 % If you wish to include an abstract, uncomment the lines below
 \begin{abstract}
-In many occasions, we face the problem of finding a path from one place to another place. In such situations, were we not just trying to find the shortest distance; but the traveling time also an important factor to be taken into consideration. In artificial intelligence, search algorithms are mainly used for such problems. On the other hand, when it comes to differentiating between such algorithms, it is often useful to implement them on a path finding problem and compare their features. We have attempted to create a game map which can be used in a simple path finding problem. On the map, we have two points, source and destination. We are also free to create an arbitrary shape of walls between them to create a problem. We then have myriad of ways to examine the precise difference between search algorithms and compare them in terms of execution speed, accuracy, and overall performance. To solve the path finding problem, we have implemented six major search algorithms representing 3 main types of search algorithm families, namely Breadth-First Search, Depth-First Search, Greedy Best-First Search, A* Search, Hill-Climbing, and Simulated Annealing. The map is created using a grid structure, so as to have a precise depiction of the 'search movements' of each of the algorithms visually in terms of characteristics and performance.
+In many occasions, we face the problem of finding a path from one place to another place. In such situations, were we not just trying to find the shortest distance; but the traveling time also an important factor to be taken into consideration. In artificial intelligence, search algorithms are mainly used for such problems. On the other hand, when it comes to differentiating between such algorithms, it is often useful to implement them on a path finding problem and compare their features. We have attempted to create a game map which can be used in a simple path finding problem. On the map, we have two points, start and destination. We are also free to create an arbitrary shape of walls between them to create a problem. We then have myriad of ways to examine the precise difference between search algorithms and compare them in terms of execution speed, accuracy, and overall performance. To solve the path finding problem, we have implemented six major search algorithms representing 3 main types of search algorithm families, namely Breadth-First Search, Depth-First Search, Greedy Best-First Search, A* Search, Hill-Climbing, and Simulated Annealing. The map is created using a grid structure, so as to have a precise depiction of the 'search movements' of each of the algorithms visually in terms of characteristics and performance.
 \end{abstract}
 
 % \vfill
@@ -121,7 +121,7 @@ We have implemented six different algorithms reflecting the above three differen
 
 \section{Algorithms and Implementations}
 
-There will be obstacles between the source and the destination squares, and our implementation shows graphically how each algorithm manage to reach the destination in its own term. This very activity will in turn allow us to visually enjoy the actual performance of each of those algorithms in real world problems. We made use of Manhattan distance heuristics for the informed search algorithms and as the scoring/objective function for local searches.
+There will be obstacles between the start and the destination squares, and our implementation shows graphically how each algorithm manage to reach the destination in its own term. This very activity will in turn allow us to visually enjoy the actual performance of each of those algorithms in real world problems. We made use of Manhattan distance heuristics for the informed search algorithms and as the scoring/objective function for local searches.
 
 %----------------------------------------------------------------------------------------
 %	Breadth-first
@@ -200,7 +200,7 @@ By using a greedy algorithm, we expand the root and add its successors to the qu
 
 As compared to the Best-first search algorithm, A* explores a graph not only by expanding the most promising node based on the heuristic function, but also on take into account the cost to reach that intermediate node itself. We made use of the Manhattan distance heuristic function with A* search. Since Manhattan distance is a consistent heuristic, we are guaranteed to find an optimal path in case of A*. \\
 
-The key difference from the implementation of Best-first search is that we keep a sorted priority queue (fringe) of alternate path segments in case of A*. Therefore, at each step, we remove the node with the lowest f(x) value from the queue until reaching a goal square.
+The key difference from the implementation of Best-first search is that we keep a sorted priority queue (fringe) of alternate path segments in case of A*. Therefore, at each step, we remove the node with the lowest $f(x)$ value from the queue until reaching a goal square.
 
 %----------------------------------------------------------------------------------------
 %	Hill-climbing
