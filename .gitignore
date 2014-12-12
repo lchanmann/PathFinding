@@ -21,3 +21,4 @@ build/
 *.synctex.gz
 *.bbl
 *.blg
+report.out

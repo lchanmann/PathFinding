@@ -26,8 +26,10 @@
 \usepackage{graphicx} % Required for the inclusion of images
 \usepackage{natbib} % Required to change bibliography style to APA
 \usepackage{amsmath} % Required for some math elements 
+\usepackage{hyperref}
 
-%\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
 
 %\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
 
@@ -77,13 +79,13 @@ Wikipedia describes the pathfinding problem as "\emph{Pathfinding} or \emph{path
 	\item Finding the optimal path
 \end{itemize}
 
-\noindent Blind search algorithms such as breadth-first and depth-first search solve the first type of problem by exhaustively checking all possibilities, starting with the given node. They iterate through all possible paths until they find the destination node. Because of their “blindness”, such algorithms can be either ineffective or too expensive. \\
+Blind search algorithms such as breadth-first and depth-first search solve the first type of problem by exhaustively checking all possibilities, starting with the given node. They iterate through all possible paths until they find the destination node. Because of their “blindness”, such algorithms can be either ineffective or too expensive. \\
 
-\noindent Then we have an even more complicated problem – finding the optimal path. In this case however, it is not required to check all possible paths in order to find the optimal one. By using heuristics (additional knowledge of the problem space), we can strategically eliminate unnecessary paths. We will find out that this informed approach is more powerful and "gets the job done" efficiently most of the time. \\
+Then we have an even more complicated problem – finding the optimal path. In this case however, it is not required to check all possible paths in order to find the optimal one. By using heuristics (additional knowledge of the problem space), we can strategically eliminate unnecessary paths. We will find out that this informed approach is more powerful and "gets the job done" efficiently most of the time. \\
 
-\noindent We also have a type of search algorithms that try to explore the search space unsystematically. This is relative to the fact that, in some problems, the path to the goal is irrelevant – what matters is the final state after the search effort. Local search algorithms are such algorithms in which the paths followed are not retained. \\
+We also have a type of search algorithms that try to explore the search space unsystematically. This is relative to the fact that, in some problems, the path to the goal is irrelevant – what matters is the final state after the search effort. Local search algorithms are such algorithms in which the paths followed are not retained. \\
  
-\noindent We have implemented six different algorithms reflecting the above three different approaches: \\
+We have implemented six different algorithms reflecting the above three different approaches: \\
 \begin{itemize}
 	\item Uninformed search
 	\begin{itemize}
@@ -135,7 +137,6 @@ BFS is a  strategy for searching in a graph  when search is limited to essenti
   \caption{BFS with a block between two points}
 \end{figure}
 
-\noindent \\
 The algorithm uses a queue data structure to store intermediate results as it traverses the graph, as follows:\\
 
 \begin{enumerate}
@@ -163,7 +164,6 @@ DFS starts at the root (selecting some arbitrary node as the root in the case o
   \caption{DFS with a block between two points}
 \end{figure}
 
-\noindent \\
 DFS always expands the deepest node in the current frontier of the search tree. As seen above, the search proceeds immediately to the deepest level of the search tree, where the nodes have no successors.
 
 %----------------------------------------------------------------------------------------
@@ -174,7 +174,7 @@ DFS always expands the deepest node in the current frontier of the search tree. 
 
 It is a search algorithm which explores a graph by expanding the most promising node chosen solely according to additional knowledge about the problem given by its designer in term heuristic function.\\
 
-\noindent We used "best-first search" to refer specifically to a search with a heuristic function that attempts to predict how close the end of a path is to a solution, so that paths which are judged to be closer to a solution are extended first. This specific type of search is called \textbf{greedy best-first search}. \\
+We used "best-first search" to refer specifically to a search with a heuristic function that attempts to predict how close the end of a path is to a solution, so that paths which are judged to be closer to a solution are extended first. This specific type of search is called \textbf{greedy best-first search}. \\
 
 \begin{figure}[h!]
   \centering
@@ -182,7 +182,6 @@ It is a search algorithm which explores a graph by expanding the most promisin
   \caption{Greedy best-first search with a block between two points}
 \end{figure}
 
-\noindent \\
 By using a greedy algorithm, we expand the root and add its successors to the queue then pick the successor that is the closest to the goal node depend entirely on the prediction of the heuristic function.
 
 \paragraph{Manhattan distance heuristic: } Think of the grid map, the root node, and goal node in our PathFinding program as a cartesian plane with two separate points $x$ and $y$. What is your best estimate about the distance from $x$ to $y$? One might give the straight-line distance (euclidean distance) estimate however the sum of the difference between $x$ and $y$ coordinates (manhattan distance) would yield a more admissible prediction and in fact it is the perfect estimate as we define our grid to allow only horizontal and vertical move but not diagonal or straight a cross every square.  
@@ -199,9 +198,9 @@ By using a greedy algorithm, we expand the root and add its successors to the qu
   \caption{A* with a block between two points}
 \end{figure}
 
-\noindent As compared to the Best-first search algorithm, A* explores a graph not only by expanding the most promising node based on the heuristic function, but also on take into account the cost to reach that intermediate node itself. We made use of the Manhattan distance heuristic function with A* search. Since Manhattan distance is a consistent heuristic, we are guaranteed to find an optimal path in case of A*. \\
+As compared to the Best-first search algorithm, A* explores a graph not only by expanding the most promising node based on the heuristic function, but also on take into account the cost to reach that intermediate node itself. We made use of the Manhattan distance heuristic function with A* search. Since Manhattan distance is a consistent heuristic, we are guaranteed to find an optimal path in case of A*. \\
 
-\noindent The key difference from the implementation of Best-first search is that we keep a sorted priority queue (fringe) of alternate path segments in case of A*. Therefore, at each step, we remove the node with the lowest f(x) value from the queue until reaching a goal square.
+The key difference from the implementation of Best-first search is that we keep a sorted priority queue (fringe) of alternate path segments in case of A*. Therefore, at each step, we remove the node with the lowest f(x) value from the queue until reaching a goal square.
 
 %----------------------------------------------------------------------------------------
 %	Hill-climbing
@@ -218,7 +217,6 @@ As a local search algorithm, hill-climbing starts by exploring its neighbors and
   \label{fig:hillClimbing}
 \end{figure}
 
-\noindent
 Hence, in our grid map if there is an obstacle lying on the path to the goal node, the steepest-ascent hill-climbing we have implemented here will stop immediately as seen in the Figure~\ref{fig:hillClimbing}.
 
 %----------------------------------------------------------------------------------------
@@ -242,25 +240,25 @@ Taking the advantage of search speech by not looking far ahead while trying to a
 T_k = \frac{T_0}{1 + \alpha \cdot k}, \quad \alpha > 0
 \end{equation}
 \\
-\noindent where we set $T_0 = 1000$ and $\alpha = 0.1$, so the maximum loop here is 9991 for our simulated annealing algorithm. You can easily solve for $\alpha$ by tweaking the equation~\ref{eq:linearMultiplicative} to be \\
+where we set $T_0 = 1000$ and $\alpha = 0.1$, so the maximum loop here is 9991 for our simulated annealing algorithm. You can easily solve for $\alpha$ by tweaking the equation~\ref{eq:linearMultiplicative} to be \\
 
 \begin{equation}
 \alpha = \left(T_0-1\right) \cdot \frac{1}{k-1}
 \end{equation}
 \\
-\noindent where $k$ is the maximum loop for your simulated annealing algorithm. \\
+where $k$ is the maximum loop for your simulated annealing algorithm. \\
 
-\noindent In term of Multiplicative cooling function, there are 3 other available choices including Exponential multiplicative cooling, Logarithmical multiplicative cooling, and Quadratic multiplicative cooling all of which not only consume more computational resource comparing to the linear function we are using but predictable nature of linearity also allows us to fine tune for an optimal $\alpha$ given discrete state space like our $22 \times 32$ grid map.
-
-\paragraph{Use of grids:} Grids are widely used in games to represent a playground such as maps (Warcraft), playing surfaces (pool, tennis, poker), playing fields (baseball, football), boards (chess, Monopoly, Connect Four), and abstract spaces (Tetris). \\
+In term of Multiplicative cooling function, there are 3 other available choices including Exponential multiplicative cooling, Logarithmical multiplicative cooling, and Quadratic multiplicative cooling all of which not only consume more computational resource comparing to the linear function we are using but predictable nature of linearity also allows us to fine tune for an optimal $\alpha$ given discrete state space like our $22 \times 32$ grid map. \\
 
 \begin{figure}[h!]
   \centering
     \includegraphics[scale=.6]{images/square-grid.png}
-  \caption{Square grida}
+  \caption{Square grids}
 \end{figure}
 
-\noindent We build grids by repeating simple shapes. A square grid is the most common type. It is the simplest type and very easy to work with, therefore the most common type of grid. We can represent locations using simple coordinates (x, y) system. The square coordinate system is the same even if your map squares are angled on screen in an isometric or axonometric projection. The default choice of heuristic function on a grid is understandably Manhattan distance heuristics, because of its block-type structure.
+\paragraph{Use of grids:} Grids are widely used in games to represent a playground such as maps (Warcraft), playing surfaces (pool, tennis, poker), playing fields (baseball, football), boards (chess, Monopoly, Connect Four), and abstract spaces (Tetris). \\
+
+We build grids by repeating simple shapes. A square grid is the most common type. It is the simplest type and very easy to work with, therefore the most common type of grid. We can represent locations using simple coordinates (x, y) system. The square coordinate system is the same even if your map squares are angled on screen in an isometric or axonometric projection. The default choice of heuristic function on a grid is understandably Manhattan distance heuristics, because of its block-type structure.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
@@ -276,7 +274,7 @@ The results we have obtained, after running these algorithms individually both w
   \caption{Execution time comparison}
 \end{figure}
 
-\noindent As we can see in the chart, Breath First search takes more time than other algorithms for it needs more time to get an optimal path. Best first Search and A* Search, while they use heuristic to speed up the process and among which A* can still find optimal solution. Simulated annealing search and Hill-Climbing search take less time, among which Hill-Climbing search will stop very soon when it meets a local maxima. \\
+As we can see in the chart, Breath First search takes more time than other algorithms for it needs more time to get an optimal path. Best first Search and A* Search, while they use heuristic to speed up the process and among which A* can still find optimal solution. Simulated annealing search and Hill-Climbing search take less time, among which Hill-Climbing search will stop very soon when it meets a local maxima. \\
 
 \begin{figure}[h!]
   \centering
@@ -284,7 +282,7 @@ The results we have obtained, after running these algorithms individually both w
   \caption{Path cost comparison}
 \end{figure}
 
-\noindent As we can see in the chart above, Simulated Annealing search usually cost much more steps to reach the goal and sometimes even fail to reach the goal according to the cooling speed we set. Depth First Search cannot find an optimal solution while Breath First Search and A* Search can. Best First Search finds nearly as good as Breadth First Search and A* Search. \\
+As we can see in the chart above, Simulated Annealing search usually cost much more steps to reach the goal and sometimes even fail to reach the goal according to the cooling speed we set. Depth First Search cannot find an optimal solution while Breath First Search and A* Search can. Best First Search finds nearly as good as Breadth First Search and A* Search. \\
 
 \begin{figure}[h!]
   \centering
@@ -292,7 +290,7 @@ The results we have obtained, after running these algorithms individually both w
   \caption{Expanded nodes comparison}
 \end{figure}
 
-\noindent As we can see in the chart above, Breath First Search and Depth First Search expanded the most amounts of nodes for they do not have heuristic function and will search all the way down to the goal.  The nodes expansion of A* Search, Best First Search and Simulated Annealing Search expands are very likely. \\
+As we can see in the chart above, Breath First Search and Depth First Search expanded the most amounts of nodes for they do not have heuristic function and will search all the way down to the goal.  The nodes expansion of A* Search, Best First Search and Simulated Annealing Search expands are very likely. \\
 
 
 
@@ -309,9 +307,17 @@ So the obvious question is "which algorithm should we use for finding paths on a
 \item If you want to find paths to one location, use Greedy Best First Search or A*. We would prefer A* in most cases since it is optimal.
 \end{itemize}
 
-\noindent What about optimal paths? Breadth First Search is guaranteed to find the shortest path given the input graph. Greedy Best First Search is not. A* is guaranteed to find the shortest path if the heuristic is never larger than the true distance. As the heuristic becomes larger, A* turns into Greedy Best First Search.\\
+What about optimal paths? Breadth First Search is guaranteed to find the shortest path given the input graph. Greedy Best First Search is not. A* is guaranteed to find the shortest path if the heuristic is never larger than the true distance. As the heuristic becomes larger, A* turns into Greedy Best First Search.\\
 
-\noindent What about performance? The best thing to do is to eliminate unnecessary locations in your graph. Reducing the size of the graph helps all the graph search algorithms. It also can be noticed that simpler queues run faster. Greedy Best First Search typically runs faster but doesn’t produce optimal paths. A* is a good choice for most pathfinding needs. \\
+What about performance? The best thing to do is to eliminate unnecessary locations in your graph. Reducing the size of the graph helps all the graph search algorithms. It also can be noticed that simpler queues run faster. Greedy Best First Search typically runs faster but doesn’t produce optimal paths. A* is a good choice for most pathfinding needs. \\
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4
+%----------------------------------------------------------------------------------------
+
+\section{Source code}
+
+\url{https://github.com/lchanmann/PathFinding}
 
 \vfill
 
