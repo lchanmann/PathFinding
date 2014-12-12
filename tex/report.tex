@@ -209,16 +209,17 @@ By using a greedy algorithm, we expand the root and add its successors to the qu
 
 \subsection{Hill-climbing algorithm:}
 
-A local search algorithm starts from a candidate solution and then iteratively moves to a neighbor solution. When no improving configurations are present in the neighborhood, local search is stuck at a locally optimal point. \\
+As a local search algorithm, hill-climbing starts by exploring its neighbors and pick a candidate with the highest value evaluated by its objective function ($Manhattan\_distance * -1$) then compare the value of the neighbor node with its current node. If the neighbor node has a higher value the neighbor becomes the current node and repeat, otherwise it will exit the explore and compare loop, stop search and return a solution if the current node is the goal or failure if it is not. This often leads to improvement in search speed since it embraces the goal to always find a higher value neighboring square compare to its own without wasting time considering the currently poorer options and as a consequence it will get stuck on a locally optimal point. \\
 
 \begin{figure}[h!]
   \centering
     \includegraphics[scale=.9]{images/hillclimb1.png}
   \caption{Hill-climbing search with a block between two points}
+  \label{fig:hillClimbing}
 \end{figure}
 
-\noindent \\
-It is an iterative algorithm that starts with an arbitrary solution to a problem, then attempts to find a better solution by incrementally changing a single element of the solution. If the change produces a better solution, an incremental change is made to the new solution, repeating until no further improvements can be found. Hill climbing is good for finding a local optimum (a solution that cannot be improved by considering a neighboring configuration) but it is not necessarily guaranteed to find the best possible solution (the global optimum) out of all possible solutions (the search space).
+\noindent
+Hence, in our grid map if there is an obstacle lying on the path to the goal node, the steepest-ascent hill-climbing we have implemented here will stop immediately as seen in the Figure~\ref{fig:hillClimbing}.
 
 %----------------------------------------------------------------------------------------
 %	Simulated annealing
@@ -226,16 +227,30 @@ It is an iterative algorithm that starts with an arbitrary solution to a problem
 
 \subsection{Simulated annealing algorithm:}
 
-At each step, the SA heuristic considers some neighboring state of the current state, and probabilistically decides between moving the system to that state or staying in the current state. These probabilities ultimately lead the system to move to states of lower energy. Typically this step is repeated until the system reaches a state that is good enough for the application, or until a given computation budget has been exhausted. \\
+Taking the advantage of search speech by not looking far ahead while trying to address the problem of getting stuck in local optima of a typical hill-climbing, simulated annealing starts by choosing a random successor and move to the square if it has a higher value than current position. Otherwise, accept the move only when the probability ($e^{\Delta E/T}$) is greater than a pseudorandomly generated number between $[0, 1]$. At the start, $T$ the temperature was initialized to $1000$ and the cooling schedule gradually decreases the temperature $T$ in each time step until $0$ and the search terminates if the goal hasn't been found. As temperature is getting lower the "bad" moves are becoming more unlikely driving the search to consider the moves more promising toward reaching the goal. \\
 
 \begin{figure}[h!]
   \centering
     \includegraphics[scale=.9]{images/sa1.png}
   \caption{Simulated annealing with a block between two points}
+  \label{fig:simulatedAnnealing}
 \end{figure}
 
-\noindent \\
-The innermost loop of the simulated-annealing algorithm is quite similar to hill climbing. Instead of picking the best move, however, it picks a random move. If the move improves the situation, it is always accepted. Otherwise, the algorithm accepts the move with some probability less than 1.
+\paragraph{Cooling schedule:} Due to the randomness in picking a move with probability simulated annealing can manage to overcome local optima however in the hope to always reach the goal it very depends on the cooling schedule implementation. When the temperature decays too fast it will not be able to find the goal, but when the temperature decaying rate is too low the algorithm will take too many unnecessary trial and error moves and if there is no way to get to the goal node this exhaustive loop will still carry on as long as the temperature is greater than zero. Hence choosing the right cooling schedule function and its parameter is crucial to determine the productivity of the algorithm and the varying in size and characteristics of the problem space directly affect the decision to be made. In our situation, we use Linear Multiplicative Monotonic function \\
+
+\begin{equation} \label{eq:linearMultiplicative}
+T_k = \frac{T_0}{1 + \alpha \cdot k}, \quad \alpha > 0
+\end{equation}
+\\
+\noindent where we set $T_0 = 1000$ and $\alpha = 0.1$, so the maximum loop here is 9991 for our simulated annealing algorithm. You can easily solve for $\alpha$ by tweaking the equation~\ref{eq:linearMultiplicative} to be \\
+
+\begin{equation}
+\alpha = \left(T_0-1\right) \cdot \frac{1}{k-1}
+\end{equation}
+\\
+\noindent where $k$ is the maximum loop for your simulated annealing algorithm. \\
+
+\noindent In term of Multiplicative cooling function, there are 3 other available choices including Exponential multiplicative cooling, Logarithmical multiplicative cooling, and Quadratic multiplicative cooling all of which not only consume more computational resource comparing to the linear function we are using but predictable nature of linearity also allows us to fine tune for an optimal $\alpha$ given discrete state space like our $22 \times 32$ grid map.
 
 \paragraph{Use of grids:} Grids are widely used in games to represent a playground such as maps (Warcraft), playing surfaces (pool, tennis, poker), playing fields (baseball, football), boards (chess, Monopoly, Connect Four), and abstract spaces (Tetris). \\
 
