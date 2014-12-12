@@ -129,7 +129,9 @@ There will be obstacles between the start and the destination squares, and our i
 
 \subsection{Breadth-first search algorithm:}
 
-BFS is a  strategy for searching in a graph  when search is limited to essentially two operations: (a) visit and inspect a node of a graph; (b) gain access to visit the nodes that neighbor the currently visited node. The BFS begins at a root node and inspects all the neighboring nodes. Then for each of those neighbor nodes in turn, it inspects their neighbor nodes which were unvisited, and so on. \\
+Breadth First search is known as an uninformed search because it does not use any information about how far it has traveled or how far it is from the goal. BFS begins at the starting position and looking for the goal by expanding all of the allowable directions of the root node from the order of left, up, right and down. All nodes that have already been visited, block nodes and nodes outside map will not be considered allowable nodes. \\
+
+Breadth First Search follows a First in First out queue. Once the goal is found, it then trace back through the tree to obtain the path for the agent to follow. \\
 
 \begin{figure}[h!]
   \centering
