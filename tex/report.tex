@@ -272,53 +272,28 @@ The results we have obtained, after running these algorithms individually both w
 
 \begin{figure}[h!]
   \centering
-    \includegraphics[scale=.9]{images/bfs1.png}
-  \caption{BFS with a block between two points}
+    \includegraphics[scale=.4]{images/execution_time.png}
+  \caption{Execution time comparison}
 \end{figure}
 
-\noindent Let us compare the six algorithms in an exactly same problem case with a single square block in between the two points. \\
-
-\noindent As we can see here, in breadth-first search algorithm, all the nodes are expanded at a given depth in the search tree before any nodes at the next level are expanded. Therefore the shape of the search space covered is guaranteed to be a square on a grid and the expanded node is the largest in case of BFS. The CPU execution time is also the longest since the algorithm is doing an exhaustive search to reach the destination node. We can see how blind (and wasteful) an uninformed search actually is. Breadth-first search is guaranteed to find the optimal path, so we can see that the path-cost is 14 in above case. \\
+\noindent As we can see in the chart, Breath First search takes more time than other algorithms for it needs more time to get an optimal path. Best first Search and A* Search, while they use heuristic to speed up the process and among which A* can still find optimal solution. Simulated annealing search and Hill-Climbing search take less time, among which Hill-Climbing search will stop very soon when it meets a local maxima. \\
 
 \begin{figure}[h!]
   \centering
-    \includegraphics[scale=.9]{images/dfs1.png}
-  \caption{DFS with a block between two points}
+    \includegraphics[scale=.4]{images/path_cost.png}
+  \caption{Path cost comparison}
 \end{figure}
 
-\noindent As we can see here, DFS expands the deepest node in the current frontier. Therefore the path cost is quite high in this example and the CPU execution time as well. It also expanded much more nodes than BFS, therefore proving that DFS is non-optimal. \\
+\noindent As we can see in the chart above, Simulated Annealing search usually cost much more steps to reach the goal and sometimes even fail to reach the goal according to the cooling speed we set. Depth First Search cannot find an optimal solution while Breath First Search and A* Search can. Best First Search finds nearly as good as Breadth First Search and A* Search. \\
 
 \begin{figure}[h!]
   \centering
-    \includegraphics[scale=.9]{images/A1.png}
-  \caption{A* with a block between two points}
+    \includegraphics[scale=.4]{images/expanded_node.png}
+  \caption{Expanded nodes comparison}
 \end{figure}
 
-\noindent We can see from the above picture how smart the heuristic search compared to the uninformed search is. A* actually has a sense of direction to look for the destination and is very effective in finding it. The length of the path is same as BFS, therefore guarantees an optimal path, because of an admissible heuristic function. We can see that the expanded node is greatly reduced and the CPU execution time accordingly. \\
+\noindent As we can see in the chart above, Breath First Search and Depth First Search expanded the most amounts of nodes for they do not have heuristic function and will search all the way down to the goal.  The nodes expansion of A* Search, Best First Search and Simulated Annealing Search expands are very likely. \\
 
-\begin{figure}[h!]
-  \centering
-    \includegraphics[scale=.9]{images/greedy1.png}
-  \caption{Greedy best-first search with a block between two points}
-\end{figure}
-
-\noindent The greedy best-first search is the most effective in this case with a minimum expanded nodes of 14, thereby having the least CPU execution time. This proves that a greedy algorithm can be very effective in the right circumstance. Instead of selecting the vertex closest to the starting point, it selects the vertex closest to the goal. Greedy Best-First-Search is not guaranteed to find a shortest path. However, it runs much quicker than A* algorithm. \\
-
-\begin{figure}[h!]
-  \centering
-    \includegraphics[scale=.9]{images/hillclimb1.png}
-  \caption{Hill-climbing search with a block between two points}
-\end{figure}
-
-\noindent As we can see (in Figure 6), a local search algorithm operate using a single current node (rather than multiple paths) and generally move only to neighbors of that node. Also the paths followed by the search are not retained. So we can testify from above that the hill-climbing search is simply a loop that continually moves in the direction of increasing value – that is, uphill. And since there’s an obstacle, it failed to find the path to the destination, because it simply did not keep track of alternative routes. Hence we can see the clear limitations of the hill-climbing search here. \\
-
-\begin{figure}[h!]
-  \centering
-    \includegraphics[scale=.9]{images/sa1.png}
-  \caption{Simulated annealing with a block between two points}
-\end{figure}
-
-\noindent Simulated annealing is the most ineffective choice as per this example as the path length is 406 steps as shown. However, the CPU execution time and the expanded node are much less than uninformed search algorithms because of its randomness.
 
 
 %----------------------------------------------------------------------------------------
@@ -338,17 +313,14 @@ So the obvious question is "which algorithm should we use for finding paths on a
 
 \noindent What about performance? The best thing to do is to eliminate unnecessary locations in your graph. Reducing the size of the graph helps all the graph search algorithms. It also can be noticed that simpler queues run faster. Greedy Best First Search typically runs faster but doesn’t produce optimal paths. A* is a good choice for most pathfinding needs.
 
-\newpage
-
-%$T_k = \frac{T_0}{1 + \alpha \cdot k}, \quad \alpha > 0$
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
 
-%\bibliographystyle{apalike}
+\bibliographystyle{apalike}
 
-%\bibliography{sample}
+\bibliography{sample}
 
 %----------------------------------------------------------------------------------------
 
