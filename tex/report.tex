@@ -193,16 +193,15 @@ By using a greedy algorithm, we expand the root and add its successors to the qu
 
 \subsection{A* search algorithm:}
 
-A* assigns a weight to each open node equal to the weight of the edge to that node plus the approximate distance between that node and the finish. This approximate distance is found by the heuristic, and represents a minimum possible distance between that node and the end. This allows it to eliminate longer paths once an initial path is found. If there is a path of length x between the start and finish, and the minimum distance between a node and the finish is greater than x, that node need not be examined. \\
-
 \begin{figure}[h!]
   \centering
     \includegraphics[scale=.9]{images/A1.png}
   \caption{A* with a block between two points}
 \end{figure}
 
-\noindent \\
-When the value of the heuristic is exactly the true distance, A* examines the fewest nodes. As the value of the heuristic increases, A* examines fewer nodes but no longer guarantees an optimal path. In many applications (such as video games) this is acceptable and even desirable, in order to keep the algorithm running quickly.
+\noindent As compared to the Best-first search algorithm, A* explores a graph not only by expanding the most promising node based on the heuristic function, but also on take into account the cost to reach that intermediate node itself. We made use of the Manhattan distance heuristic function with A* search. Since Manhattan distance is a consistent heuristic, we are guaranteed to find an optimal path in case of A*. \\
+
+\noindent The key difference from the implementation of Best-first search is that we keep a sorted priority queue (fringe) of alternate path segments in case of A*. Therefore, at each step, we remove the node with the lowest f(x) value from the queue until reaching a goal square.
 
 %----------------------------------------------------------------------------------------
 %	Hill-climbing
@@ -238,7 +237,7 @@ At each step, the SA heuristic considers some neighboring state of the current 
 \noindent \\
 The innermost loop of the simulated-annealing algorithm is quite similar to hill climbing. Instead of picking the best move, however, it picks a random move. If the move improves the situation, it is always accepted. Otherwise, the algorithm accepts the move with some probability less than 1.
 
-\paragraph{Use of grids:} Grids are commonly used in games for representing playing areas such as maps (in games like Civilization and Warcraft), playing surfaces (in games like pool, table tennis, and poker), playing fields (in games like baseball and football), boards (in games like Chess, Monopoly, and Connect Four), and abstract spaces (in games like Tetris). \\
+\paragraph{Use of grids:} Grids are widely used in games to represent a playground such as maps (Warcraft), playing surfaces (pool, tennis, poker), playing fields (baseball, football), boards (chess, Monopoly, Connect Four), and abstract spaces (Tetris). \\
 
 \begin{figure}[h!]
   \centering
@@ -246,7 +245,7 @@ The innermost loop of the simulated-annealing algorithm is quite similar to hill
   \caption{Square grida}
 \end{figure}
 
-\noindent Grids are built from a repetition of simple shapes. The most common grid is a square grid. It’s simple, easy to work with, and maps nicely onto a computer screen. Square grids are the most common grids used in games, primarily because they are easy to use. Locations can use the familiar cartesian coordinates (x, y) and the axes are orthogonal. The square coordinate system is the same even if your map squares are angled on screen in an isometric or axonometric projection.
+\noindent We build grids by repeating simple shapes. A square grid is the most common type. It is the simplest type and very easy to work with, therefore the most common type of grid. We can represent locations using simple coordinates (x, y) system. The square coordinate system is the same even if your map squares are angled on screen in an isometric or axonometric projection. The default choice of heuristic function on a grid is understandably Manhattan distance heuristics, because of its block-type structure.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
@@ -256,13 +255,13 @@ The innermost loop of the simulated-annealing algorithm is quite similar to hill
 
 The results we have obtained, after running these algorithms individually both with and without a block between the points A and B, are pretty astonishing and is a pleasure for anyone to watch how these algorithms get the job done through such distinctive methodologies.\\
 
-\noindent Let us compare the six algorithms in an exactly same problem case with a single square block in between the two points.
-
 \begin{figure}[h!]
   \centering
     \includegraphics[scale=.9]{images/bfs1.png}
   \caption{BFS with a block between two points}
 \end{figure}
+
+\noindent Let us compare the six algorithms in an exactly same problem case with a single square block in between the two points. \\
 
 \noindent As we can see here, in breadth-first search algorithm, all the nodes are expanded at a given depth in the search tree before any nodes at the next level are expanded. Therefore the shape of the search space covered is guaranteed to be a square on a grid and the expanded node is the largest in case of BFS. The CPU execution time is also the longest since the algorithm is doing an exhaustive search to reach the destination node. We can see how blind (and wasteful) an uninformed search actually is. Breadth-first search is guaranteed to find the optimal path, so we can see that the path-cost is 14 in above case. \\
 
