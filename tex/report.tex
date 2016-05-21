@@ -242,13 +242,21 @@ Taking the advantage of search speech by not looking far ahead while trying to a
 T_k = \frac{T_0}{1 + \alpha \cdot k}, \quad \alpha > 0
 \end{equation}
 \\
-where we set $T_0 = 1000$ and $\alpha = 0.1$, so the maximum loop here is 9991 for our simulated annealing algorithm. You can easily solve for $\alpha$ by tweaking the equation~\ref{eq:linearMultiplicative} to be \\
+where we set $T_0 = 1000$ and $\alpha = 0.1$, so the maximum iteration here is 9991 for our simulated annealing algorithm. You can easily solve for $\alpha$ in equation~\ref{eq:linearMultiplicative} by fixing $k$. \\ % and tweaking the  to be \\
+
+Simulate annealing stops when $T_k = 0$, however, the equation~\ref{eq:linearMultiplicative} can rarely be exactly zero and casting is used to convert floating point number to integer. Then, $T_{k-1}$ must equal to 1 in order for the algorithm to stop at the k-th iteration. \\
+
+\begin{equation}
+	T_{k-1} = \frac{T_0}{1 + \alpha \cdot (k - 1)} = 1
+\end{equation}
+
+with some manipulation, $\alpha$ can be obtained: \\
 
 \begin{equation}
 \alpha = \left(T_0-1\right) \cdot \frac{1}{k-1}
 \end{equation}
 \\
-where $k$ is the maximum loop for your simulated annealing algorithm. \\
+where $k$ is the maximum loop for simulated annealing algorithm. \\
 
 In term of Multiplicative cooling function, there are 3 other available choices including Exponential multiplicative cooling, Logarithmical multiplicative cooling, and Quadratic multiplicative cooling all of which not only consume more computational resource comparing to the linear function we are using but predictable nature of linearity also allows us to fine tune for an optimal $\alpha$ given discrete state space like our $22 \times 32$ grid map. \\
 
