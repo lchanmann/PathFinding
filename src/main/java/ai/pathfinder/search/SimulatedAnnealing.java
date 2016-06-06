@@ -33,7 +33,8 @@ public class SimulatedAnnealing extends SearchAlgorithm {
         Node current = problem.getInitialNode();
 
         reset();
-        for (int k=0; ;k++) {
+        // start iteration from 1 to K
+        for (int k = 1; ;k++) {
             temperature = coolingSchedule(k);
             if (temperature == 0) return new Failure();
             if (problem.isGoal(current)) return new Solution(current);
