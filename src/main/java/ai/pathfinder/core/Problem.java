@@ -54,6 +54,18 @@ public class Problem {
         return actions;
     }
 
+    public List<Action> getReverseActions(Node node) {
+        List<Action> actions = new ArrayList<Action>();
+
+        for (Action action : Action.values()) {
+            if (isMovable(node, action)) {
+                actions.add(0, action);
+            }
+        }
+
+        return actions;
+    }
+
     private boolean isMovable(Node node, Action action) {
         int x = node.getX();
         int y = node.getY();

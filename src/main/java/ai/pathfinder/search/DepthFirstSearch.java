@@ -27,7 +27,7 @@ public class DepthFirstSearch extends SearchAlgorithm {
             if (problem.isGoal(node)) return new Solution(node);
             addExplored(node);
 
-            for (Action action : problem.getActions(node)) {
+            for (Action action : problem.getReverseActions(node)) {
                 Node child = problem.getResult(node, action);
                 if (!explored.contains(child)) {
                     if (!frontier.contains(child)) {
